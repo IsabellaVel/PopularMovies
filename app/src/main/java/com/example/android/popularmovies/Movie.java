@@ -4,15 +4,15 @@ package com.example.android.popularmovies;
  * Created by noahkim on 11/1/16.
  */
 
-public class Movies {
+public class Movie {
     String movieTitle;
     String moviePoster;
     String plotSynopsis;
     int userRating;
     String releaseDate;
 
-    public Movies(String mMovieTitle, String mMoviePoster, String mPlotSynopsis,
-                  int mUserRating, String mReleaseDate) {
+    public Movie(String mMovieTitle, String mMoviePoster, String mPlotSynopsis,
+                 int mUserRating, String mReleaseDate) {
 
         movieTitle = mMovieTitle;
         moviePoster = mMoviePoster;

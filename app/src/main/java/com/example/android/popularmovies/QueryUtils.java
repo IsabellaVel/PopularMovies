@@ -37,7 +37,7 @@ public class QueryUtils {
      * @param requestUrl
      * @return movies
      */
-    public static List<Movie> fetchMovieData(String requestUrl) {
+    public static List<Movie> fetchMovieData(String requestUrl) throws JSONException, ParseException {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -152,34 +152,20 @@ public class QueryUtils {
             // Extract JSONArray associated with key called "results"
             JSONArray movieArray = baseJsonResponse.getJSONArray("results");
 
+            // Create new Movie object
             Movie[] results = new Movie[movieArray.length()];
+
             // For each movie in the movieArray, create a Movie object
             for (int i = 0; i < movieArray.length(); i++) {
 
                 // Get a single movie at position i within the list of movies
                 JSONObject currentMovie = movieArray.getJSONObject(i);
 
-                // Extract original title
-                String title = currentMovie.getString("original_title");
-
-                // Extract movie poster
-                String poster = currentMovie.getString("poster_path");
-
-                // Extract plot synopsis
-                String synopsis = currentMovie.getString("overview");
-
-                // Extract user rating
-                int rating = currentMovie.getInt("vote_average");
-
-                // Extract release date
-                String date = currentMovie.getString("release_date");
-
-                // Create a new Movie object with the title, poster, plot,
-                // rating and date from the JSON response
-                Movie movie = new Movie(title, poster, synopsis, rating, date);
+                // Create a new Movie object with the data extracted from JSON response
+                results[i] = new Movie(currentMovie);
 
                 // Add the new Movie to the list of movies
-                movies.add(movie);
+                movies.add(results[i]);
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the movie JSON results", e);

@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +135,7 @@ public class QueryUtils {
      * Return a list of {@link Movie} objects that has been built up from
      * parsing the given JSON response.
      */
-    private static List<Movie> extractFeatureFromJson(String movieJSON) {
+    private static List<Movie> extractFeatureFromJson(String movieJSON) throws JSONException, ParseException {
         // If the JSON string is empty or null, then return early
         if (TextUtils.isEmpty(movieJSON)) {
             return null;
@@ -151,6 +152,7 @@ public class QueryUtils {
             // Extract JSONArray associated with key called "results"
             JSONArray movieArray = baseJsonResponse.getJSONArray("results");
 
+            Movie[] results = new Movie[movieArray.length()];
             // For each movie in the movieArray, create a Movie object
             for (int i = 0; i < movieArray.length(); i++) {
 

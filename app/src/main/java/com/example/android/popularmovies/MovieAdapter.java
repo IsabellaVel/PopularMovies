@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -21,8 +22,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     private final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
-    public MovieAdapter(Context context, List<Movie> movies) {
-        super(context, 0, movies);
+    public MovieAdapter(Context context, int movies) {
+        super(context, movies);
     }
 
     /**

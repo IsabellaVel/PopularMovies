@@ -23,23 +23,23 @@ public class Movie implements Parcelable {
     private Date releaseDate;
 
     private final String BASE_URL = "https://image.tmdb.org/t/p/";
-    private final String IMAGE_SIZE = "w185/";
-    private final String JSON_TITLE = "original_title";
-    private final String JSON_MOVIE_POSTER = "poster_path";
-    private final String JSON_SYNOPSIS = "overview";
-    private final String JSON_USER_RATING = "vote_average";
-    private final String JSON_RELEASE_DATE = "release_date";
+    private final String IMAGE_SIZE = "w185";
+    private final String TMDB_TITLE = "original_title";
+    private final String TMDB_POSTER = "poster_path";
+    private final String TMDB_SYNOPSIS = "overview";
+    private final String TMDB_USER_RATING = "vote_average";
+    private final String TMDB_RELEASE_DATE = "release_date";
 
 
 
     public Movie(JSONObject data) throws JSONException, ParseException {
 
-        movieTitle = data.getString(JSON_TITLE);
-        moviePoster = data.getString(JSON_MOVIE_POSTER);
-        plotSynopsis = data.getString(JSON_SYNOPSIS);
-        userRating = data.getDouble(JSON_USER_RATING);
+        movieTitle = data.getString(TMDB_TITLE);
+        moviePoster = data.getString(TMDB_POSTER);
+        plotSynopsis = data.getString(TMDB_SYNOPSIS);
+        userRating = data.getDouble(TMDB_USER_RATING);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        releaseDate = dateFormat.parse(data.getString(JSON_RELEASE_DATE));
+        releaseDate = dateFormat.parse(data.getString(TMDB_RELEASE_DATE));
     }
 
     private Movie(Parcel parcel) {
@@ -51,7 +51,7 @@ public class Movie implements Parcelable {
     }
 
     public String getMovieTitle() { return movieTitle; }
-    public String getMoviePosterURL() { return BASE_URL + IMAGE_SIZE + JSON_MOVIE_POSTER; }
+    public String getMoviePosterURL() { return BASE_URL + IMAGE_SIZE + moviePoster; }
     public String getPlotSynopsis() { return plotSynopsis; }
     public double getUserRating() { return userRating; }
     public Date getReleaseDate() { return releaseDate; }

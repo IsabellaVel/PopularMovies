@@ -37,7 +37,7 @@ public class QueryUtils {
      * @param requestUrl
      * @return movies
      */
-    public static List<Movie> fetchMovieData(String requestUrl) throws JSONException, ParseException {
+    public static List<Movie> fetchMovieData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -50,7 +50,14 @@ public class QueryUtils {
         }
 
         // Extract relevant fields from the JSON response and create a list of {@link Movie}
-        List<Movie> movies = extractFeatureFromJson(jsonResponse);
+        List<Movie> movies = null;
+        try {
+            movies = extractFeatureFromJson(jsonResponse);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Return the list of {@link Movie}
         return movies;
@@ -98,7 +105,7 @@ public class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the movie JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();

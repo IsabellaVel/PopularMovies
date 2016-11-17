@@ -1,9 +1,7 @@
 package com.example.android.popularmovies;
 
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -50,7 +46,7 @@ public class DetailActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
             // The detail activity called via intent. Inspect the intent for movie data
-            Movie movie = getActivity().getIntent().getParcelableExtra(MainActivityFragment.MOVIE_DATA);
+            Movie movie = getActivity().getIntent().getParcelableExtra(MovieFragment.MOVIE_DATA);
 
             // Find views in fragment detail
             TextView movieTitle = (TextView) rootView.findViewById(R.id.movie_title);

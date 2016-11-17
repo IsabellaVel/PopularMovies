@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,9 @@ public class DetailActivity extends AppCompatActivity {
 
         private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
+        TextView movieTitle, releaseDate, userRating, plotSynopsis;
+        ImageView moviePoster;
+
         public DetailFragment() {
             setHasOptionsMenu(true);
         }
@@ -49,11 +53,11 @@ public class DetailActivity extends AppCompatActivity {
             Movie movie = getActivity().getIntent().getParcelableExtra(MovieFragment.MOVIE_DATA);
 
             // Find views in fragment detail
-            TextView movieTitle = (TextView) rootView.findViewById(R.id.movie_title);
-            ImageView moviePoster = (ImageView) rootView.findViewById(R.id.movie_poster);
-            TextView releaseDate = (TextView) rootView.findViewById(R.id.release_date);
-            TextView userRating = (TextView) rootView.findViewById(R.id.user_rating);
-            TextView plotSynopsis = (TextView) rootView.findViewById(R.id.plot_synopsis);
+            movieTitle = (TextView) rootView.findViewById(R.id.movie_title);
+            moviePoster = (ImageView) rootView.findViewById(R.id.movie_poster);
+            releaseDate = (TextView) rootView.findViewById(R.id.release_date);
+            userRating = (TextView) rootView.findViewById(R.id.user_rating);
+            plotSynopsis = (TextView) rootView.findViewById(R.id.plot_synopsis);
 
             // Populate views with data
             movieTitle.setText(movie.getMovieTitle());

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.popularmovies.Movie;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.example.android.popularmovies.data.MovieContract.MostPopularMovies;
 import com.example.android.popularmovies.data.MovieContract.TopRatedMovies;
@@ -20,7 +19,7 @@ import com.example.android.popularmovies.data.MovieContract.FavoriteMovies;
 public class MovieDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    static final String DATABASE_NAME = "movie.db";
+    public static final String DATABASE_NAME = "movie.db";
 
     public MovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,13 +29,13 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Create a table to hold movies
         final String SQL_CREATE_MOVIES_TABLE = "CREATE TABLE " + MovieEntry.TABLE_NAME + " (" +
-                MovieEntry._ID + " INTEGER PRIMARY KEY," +
-                MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL" +
-                MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL" +
-                MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL" +
-                MovieEntry.COLUMN_USER_RATING + " REAL NOT NULL" +
-                MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL" +
-                MovieEntry.BACKDROP_PATH + " TEXT NOT NULL" + ");";
+                MovieEntry._ID + " INTEGER PRIMARY KEY, " +
+                MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
+                MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
+                MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
+                MovieEntry.COLUMN_USER_RATING + " REAL NOT NULL, " +
+                MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
+                MovieEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL " + " );";
 
         final String SQL_CREATE_MOST_POPULAR_MOVIES_TABLE = "CREATE TABLE " + MostPopularMovies.TABLE_NAME + " (" +
                 MostPopularMovies._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -44,7 +43,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 " FOREIGN KEY (" + MovieContract.COLUMN_MOVIE_ID_KEY + ") REFERENCES " +
                 MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + ") " + " );";
 
-        final String SQL_CREATE_TOP_RATED_MOVIES_TABLE = "CREATE TABLE" + TopRatedMovies.TABLE_NAME + " (" +
+        final String SQL_CREATE_TOP_RATED_MOVIES_TABLE = "CREATE TABLE " + TopRatedMovies.TABLE_NAME + " (" +
                 TopRatedMovies._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MovieContract.COLUMN_MOVIE_ID_KEY + " INTEGER NOT NULL, " +
                 " FOREIGN KEY (" + MovieContract.COLUMN_MOVIE_ID_KEY + ") REFERENCES " +

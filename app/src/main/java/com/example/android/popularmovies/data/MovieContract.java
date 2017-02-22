@@ -37,49 +37,96 @@ public class MovieContract {
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_USER_RATING = "user_rating";
         public static final String COLUMN_RELEASE_DATE = "release_date";
-        public static final String BACKDROP_PATH = "backdrop_path";
+        public static final String COLUMN_BACKDROP_PATH = "backdrop_path";
 
+        private static final String[] COLUMNS = {
+                _ID,
+                COLUMN_ORIGINAL_TITLE,
+                COLUMN_POSTER_PATH,
+                COLUMN_OVERVIEW,
+                COLUMN_USER_RATING,
+                COLUMN_RELEASE_DATE,
+                COLUMN_BACKDROP_PATH};
 
         public static Uri buildMovieUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static long getIdfromUri(Uri uri) {
+        public static long getIdFromUri(Uri uri) {
             return ContentUris.parseId(uri);
+
+        }
+
+        public static String[] getColumns() {
+            return COLUMNS.clone();
         }
     }
 
     public static final class MostPopularMovies implements BaseColumns {
+
         public static final Uri CONTENT_URI = MovieEntry.CONTENT_URI.buildUpon()
                 .appendPath(PATH_MOST_POPULAR).build();
 
         public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/"
-                        + PATH_MOVIES + "/" + PATH_MOST_POPULAR;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + "/" +
+                        PATH_MOVIES + "/" +
+                        PATH_MOST_POPULAR;
 
         public static final String TABLE_NAME = "most_popular_movies";
+
+        private static final String[] COLUMNS = {
+                _ID,
+                COLUMN_MOVIE_ID_KEY};
+
+        public static String[] getColumns() {
+            return COLUMNS.clone();
+        }
     }
 
     public static final class TopRatedMovies implements BaseColumns {
+
         public static final Uri CONTENT_URI = MovieEntry.CONTENT_URI.buildUpon()
                 .appendPath(PATH_TOP_RATED)
                 .build();
+
         public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIES
-                        + "/" + PATH_TOP_RATED;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + "/" +
+                        PATH_MOVIES + "/" +
+                        PATH_TOP_RATED;
 
         public static final String TABLE_NAME = "top_rated_movies";
+
+        private static final String[] COLUMNS = {
+                _ID,
+                COLUMN_MOVIE_ID_KEY};
+
+        public static String[] getColumns() {
+            return COLUMNS.clone();
+        }
     }
 
     public static final class FavoriteMovies implements BaseColumns {
+
         public static final Uri CONTENT_URI = MovieEntry.CONTENT_URI.buildUpon()
                 .appendPath(PATH_FAVORITES)
                 .build();
         public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIES
-                        + "/" + PATH_FAVORITES;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + "/" +
+                        PATH_MOVIES + "/" +
+                        PATH_FAVORITES;
 
-        public static final String TABLE_NAME = "favorites";
+        public static final String TABLE_NAME = "favorite_movies";
+
+        private static final String[] COLUMNS = {
+                _ID,
+                COLUMN_MOVIE_ID_KEY};
+
+        public static String[] getColumns() {
+            return COLUMNS.clone();
+        }
     }
-
 }
+

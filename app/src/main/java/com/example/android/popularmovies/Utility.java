@@ -23,11 +23,11 @@ import java.util.List;
  * Created by noahkim on 11/1/16.
  */
 
-public class QueryUtils {
+public class Utility {
 
-    public static final String LOG_TAG = QueryUtils.class.getSimpleName();
+    public static final String LOG_TAG = Utility.class.getSimpleName();
 
-    private QueryUtils() {
+    private Utility() {
 
     }
 

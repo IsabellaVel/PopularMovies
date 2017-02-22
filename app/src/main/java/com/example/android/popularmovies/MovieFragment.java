@@ -109,11 +109,11 @@ public class MovieFragment extends Fragment {
                     .appendPath("3")
                     .appendPath("movie")
                     .appendPath(sortOrder)
-                    .appendQueryParameter("api_key", getString(R.string.movie_db_api_key));
+                    .appendQueryParameter("api_key", BuildConfig.OPEN_MOVIE_API_KEY);
 
             String movie_url = builder.build().toString();
 
-            List<Movie> movies = QueryUtils.fetchMovieData(movie_url);
+            List<Movie> movies = Utility.fetchMovieData(movie_url);
             return movies;
         }
 

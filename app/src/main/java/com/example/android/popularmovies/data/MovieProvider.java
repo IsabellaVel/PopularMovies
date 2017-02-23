@@ -4,14 +4,15 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.example.android.popularmovies.data.MovieContract.MovieEntry;
-import com.example.android.popularmovies.data.MovieContract.MostPopularMovies;
-import com.example.android.popularmovies.data.MovieContract.TopRatedMovies;
 import com.example.android.popularmovies.data.MovieContract.FavoriteMovies;
+import com.example.android.popularmovies.data.MovieContract.MostPopularMovies;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.data.MovieContract.TopRatedMovies;
 
 /**
  * Created by noahkim on 2/21/17.
@@ -59,7 +60,6 @@ public class MovieProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         int match = sUriMatcher.match(uri);
         Cursor retCursor;
-
         switch (match) {
             case MOVIES:
                 retCursor = mMovieDbHelper.getReadableDatabase().query(
@@ -69,8 +69,7 @@ public class MovieProvider extends ContentProvider {
                         selectionArgs,
                         null,
                         null,
-                        sortOrder
-                );
+                        sortOrder);
                 break;
             case MOVIES_ID:
                 retCursor = getMoviesFromId(uri, projection, sortOrder);
@@ -118,17 +117,133 @@ public class MovieProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        return null;
+        SQLiteDatabase db = mMovieDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        Uri returnUri;
+        long _id;
+        switch (match) {
+            case MOVIES: {
+                _id = db.insertWithOnConflict(MovieEntry.TABLE_NAME, null, contentValues,
+                        SQLiteDatabase.CONFLICT_REPLACE);
+                if (_id > 0)
+                    returnUri = MovieEntry.buildMovieUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+            case MOST_POPULAR_MOVIES: {
+                _id = db.insert(MostPopularMovies.TABLE_NAME, null, contentValues);
+                if (_id > 0)
+                    returnUri = MostPopularMovies.CONTENT_URI;
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+            case TOP_RATED_MOVIES: {
+                _id = db.insert(TopRatedMovies.TABLE_NAME, null, contentValues);
+                if (_id > 0)
+                    returnUri = TopRatedMovies.CONTENT_URI;
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+            case FAVORITE_MOVIES: {
+                _id = db.insert(FavoriteMovies.TABLE_NAME, null, contentValues);
+                if (_id > 0)
+                    returnUri = FavoriteMovies.CONTENT_URI;
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnUri;
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        SQLiteDatabase db = mMovieDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int rowsDeleted;
+        switch (match) {
+            case MOVIES:
+                rowsDeleted = db.delete(MovieEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case MOVIES_ID:
+                long id = MovieEntry.getIdFromUri(uri);
+                rowsDeleted = db.delete(MovieEntry.TABLE_NAME, sMovieIdSelection,
+                        new String[]{Long.toString(id)});
+                break;
+            case MOST_POPULAR_MOVIES:
+                rowsDeleted = db.delete(MostPopularMovies.TABLE_NAME, selection, selectionArgs);
+                break;
+            case TOP_RATED_MOVIES:
+                rowsDeleted = db.delete(TopRatedMovies.TABLE_NAME, selection, selectionArgs);
+                break;
+            case FAVORITE_MOVIES:
+                rowsDeleted = db.delete(FavoriteMovies.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        // Because a null deletes all rows
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsDeleted;
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
-        return 0;
+    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+        SQLiteDatabase db = mMovieDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int rowsUpdated;
+        switch (match) {
+            case MOVIES:
+                rowsUpdated = db.update(MovieEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsUpdated;
+    }
+
+    @Override
+    public void shutdown() {
+        mMovieDbHelper.close();
+        super.shutdown();
+    }
+
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        final SQLiteDatabase db = mMovieDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case MOVIES:
+                db.beginTransaction();
+                int returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insertWithOnConflict(MovieEntry.TABLE_NAME,
+                                null, value, SQLiteDatabase.CONFLICT_REPLACE);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            default:
+                return super.bulkInsert(uri, values);
+        }
     }
 
     private Cursor getMoviesFromId(Uri uri, String[] projection, String sortOrder) {

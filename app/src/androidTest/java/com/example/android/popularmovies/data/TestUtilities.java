@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.data;
 
 
 import android.content.ContentValues;
@@ -9,10 +9,11 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.utils.PollingCheck;
+
 import java.util.Map;
 import java.util.Set;
-
-import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 public class TestUtilities extends AndroidTestCase {
 
@@ -84,9 +85,24 @@ public class TestUtilities extends AndroidTestCase {
         public void onChange(boolean selfChange, Uri uri) {
             mContentChanged = true;
         }
+        public void waitForNotificationOrFail() {
+            // Note: The PollingCheck class is taken from the Android CTS (Compatibility Test Suite).
+            // It's useful to look at the Android CTS source for ideas on how to test your Android
+            // applications.  The reason that PollingCheck works is that, by default, the JUnit
+            // testing framework is not running on the main Android application thread.
+            new PollingCheck(5000) {
+                @Override
+                protected boolean check() {
+                    return mContentChanged;
+                }
+            }.run();
+            mHT.quit();
+        }
     }
 
     static TestContentObserver getTestContentObserver() {
         return TestContentObserver.getTestContentObserver();
     }
+
+
 }

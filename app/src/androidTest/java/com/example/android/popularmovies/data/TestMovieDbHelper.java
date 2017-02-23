@@ -1,19 +1,17 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.example.android.popularmovies.data.MovieContract.FavoriteMovies;
+import com.example.android.popularmovies.data.MovieContract.MostPopularMovies;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.data.MovieContract.TopRatedMovies;
+
 import java.util.Arrays;
 import java.util.HashSet;
-
-import com.example.android.popularmovies.data.MovieContract;
-import com.example.android.popularmovies.data.MovieContract.MovieEntry;
-import com.example.android.popularmovies.data.MovieContract.MostPopularMovies;
-import com.example.android.popularmovies.data.MovieContract.TopRatedMovies;
-import com.example.android.popularmovies.data.MovieContract.FavoriteMovies;
-import com.example.android.popularmovies.data.MovieDbHelper;
 
 public class TestMovieDbHelper extends AndroidTestCase {
 

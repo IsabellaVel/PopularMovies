@@ -1,13 +1,12 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.data;
 
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
-import com.example.android.popularmovies.data.MovieContract;
-import com.example.android.popularmovies.data.MovieContract.MovieEntry;
-import com.example.android.popularmovies.data.MovieContract.MostPopularMovies;
-import com.example.android.popularmovies.data.MovieContract.TopRatedMovies;
 import com.example.android.popularmovies.data.MovieContract.FavoriteMovies;
+import com.example.android.popularmovies.data.MovieContract.MostPopularMovies;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.data.MovieContract.TopRatedMovies;
 
 
 public class TestMovieContract extends AndroidTestCase {

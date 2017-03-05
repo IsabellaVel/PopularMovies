@@ -1,4 +1,4 @@
-package com.noahkim.android.popularmovies.data;
+package com.example.android.popularmovies.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -10,7 +10,7 @@ import android.provider.BaseColumns;
  */
 public class MovieContract {
 
-    public static final String CONTENT_AUTHORITY = "com.noahkim.android.popularmovies.app";
+    public static final String CONTENT_AUTHORITY = "com.example.android.popularmovies.app";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_MOVIES = "movies";
 
@@ -34,7 +34,8 @@ public class MovieContract {
         public static final String COLUMN_RELEASE_DATE = "release_date";
         public static final String COLUMN_BACKDROP_PATH = "backdrop_path";
 
-        private static final String[] COLUMNS = {
+        public static final String[] COLUMNS = {
+                _ID,
                 COLUMN_MOVIE_ID,
                 COLUMN_ORIGINAL_TITLE,
                 COLUMN_POSTER_PATH,

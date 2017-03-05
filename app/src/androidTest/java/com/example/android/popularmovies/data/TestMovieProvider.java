@@ -1,4 +1,4 @@
-package com.noahkim.android.popularmovies.data;
+package com.example.android.popularmovies.data;
 
 import android.content.ComponentName;
 import android.content.ContentUris;
@@ -11,8 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.test.AndroidTestCase;
 
-import com.noahkim.android.popularmovies.Movie;
-import com.noahkim.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 public class TestMovieProvider extends AndroidTestCase {
 

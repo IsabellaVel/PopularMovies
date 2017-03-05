@@ -21,7 +21,7 @@
     <string name="pref_order_label_top_rated">Top Rated</string>
 
     <!-- SyncAdapter related -->
-    <string name="content_authority">com.noahkim.android.popularmovies.app</string>
+    <string name="content_authority">com.example.android.popularmovies.app</string>
 
     <string name="action_favorites">Favorites</string>
 

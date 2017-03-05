@@ -1,4 +1,4 @@
-package com.noahkim.android.popularmovies.data;
+package com.example.android.popularmovies.data;
 
 import android.content.UriMatcher;
 import android.net.Uri;
@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import com.noahkim.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 /**
  * Created by noahkim on 2/24/17.

@@ -3,6 +3,6 @@
     android:id="@+id/detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.noahkim.android.popularmovies.DetailActivity"
+    tools:context="com.example.android.popularmovies.DetailActivity"
     tools:ignore="MergeRootFrame" />
 

@@ -1,4 +1,4 @@
-package com.noahkim.android.popularmovies;
+package com.example.android.popularmovies;
 
 
 import android.content.Context;
@@ -25,14 +25,13 @@ public class FavoritesFragment extends Fragment {
         super.onResume();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
-
-        // Action bar title
-        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.action_favorites));
-        return rootView;
-    }
-
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
+//
+//        // Action bar title
+//        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.action_favorites));
+//        return rootView;
+//    }
 }

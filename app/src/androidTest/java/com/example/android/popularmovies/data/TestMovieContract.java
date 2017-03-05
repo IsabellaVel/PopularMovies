@@ -1,9 +1,9 @@
-package com.noahkim.android.popularmovies.data;
+package com.example.android.popularmovies.data;
 
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
-import com.noahkim.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 public class TestMovieContract extends AndroidTestCase {
 
@@ -13,14 +13,14 @@ public class TestMovieContract extends AndroidTestCase {
         assertNotNull("Error: Null Uri returned.", MovieContract.BASE_CONTENT_URI);
         assertEquals("Error: Base Content Uri doesn't match expected result",
                 MovieContract.BASE_CONTENT_URI.toString(),
-                "content://com.noahkim.android.popularmovies.app");
+                "content://com.example.android.popularmovies.app");
     }
 
     public void testMoviesUri() {
         assertNotNull("Error: Null Uri returned.", MovieEntry.CONTENT_URI);
         assertEquals("Error: Movies Uri doesn't match expected result",
                 MovieEntry.CONTENT_URI.toString(),
-                "content://com.noahkim.android.popularmovies.app/movies");
+                "content://com.example.android.popularmovies.app/movies");
     }
 
     public void testBuildMovieUri() {
@@ -34,6 +34,6 @@ public class TestMovieContract extends AndroidTestCase {
 
         assertEquals("Error: Movie Uri doesn't match expected result",
                 movieUri.toString(),
-                "content://com.noahkim.android.popularmovies.app/movies/157821");
+                "content://com.example.android.popularmovies.app/movies/157821");
     }
 }

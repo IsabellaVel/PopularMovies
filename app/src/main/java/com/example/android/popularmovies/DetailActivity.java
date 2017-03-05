@@ -1,4 +1,4 @@
-package com.noahkim.android.popularmovies;
+package com.example.android.popularmovies;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -68,12 +68,12 @@ public class DetailActivity extends AppCompatActivity {
             plotSynopsis = (TextView) rootView.findViewById(R.id.plot_synopsis);
 
             // Populate views with data
-            movieTitle.setText(movie.getMovieTitle());
+            movieTitle.setText(movie.getOriginalTitle());
             Picasso.with(getContext()).load(movie.getMoviePosterURL()).into(moviePoster);
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
             releaseDate.setText(dateFormat.format(movie.getReleaseDate()));
-            userRating.setText(String.valueOf(movie.getUserRating()));
-            plotSynopsis.setText(movie.getPlotSynopsis());
+            userRating.setText(String.valueOf(movie.getVoteAverage()));
+            plotSynopsis.setText(movie.getOverview());
 
             return rootView;
         }

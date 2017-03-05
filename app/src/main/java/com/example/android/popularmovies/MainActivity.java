@@ -1,4 +1,4 @@
-package com.noahkim.android.popularmovies;
+package com.example.android.popularmovies;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
     }
 
-    public void setActionBarTitle(String title){
-        getSupportActionBar().setTitle(title);
-    }
+//    public void setActionBarTitle(String title){
+//        getSupportActionBar().setTitle(title);
+//    }
 }

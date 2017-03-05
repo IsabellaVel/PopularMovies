@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.noahkim.android.popularmovies.MainActivity">
+    tools:context="com.example.android.popularmovies.MainActivity">
 
     <item
         android:id="@+id/action_settings"

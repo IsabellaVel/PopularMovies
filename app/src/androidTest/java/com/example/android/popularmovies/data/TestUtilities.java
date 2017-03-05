@@ -1,4 +1,4 @@
-package com.noahkim.android.popularmovies.data;
+package com.example.android.popularmovies.data;
 
 
 import android.content.ContentValues;
@@ -9,8 +9,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
-import com.noahkim.android.popularmovies.data.MovieContract.MovieEntry;
-import com.noahkim.android.popularmovies.utils.PollingCheck;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.utils.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;

@@ -15,7 +15,7 @@
  *
  * Note: This file copied from the Android CTS Tests
  */
-package com.noahkim.android.popularmovies.utils;
+package com.example.android.popularmovies.utils;
 
 import junit.framework.Assert;
 

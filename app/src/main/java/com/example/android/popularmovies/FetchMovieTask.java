@@ -29,14 +29,12 @@ import java.util.Vector;
 
 public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
-    private MovieGridAdapter movieGridAdapter;
     private final Context mContext;
 
     public static final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
-    public FetchMovieTask(Context context, MovieGridAdapter adapter) {
+    public FetchMovieTask(Context context) {
         mContext = context;
-        movieGridAdapter = adapter;
     }
 
     private void getMovieDataFromJson(String movieJSON) throws JSONException, ParseException {
@@ -81,13 +79,13 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
                 ContentValues movieValues = new ContentValues();
 
+                movieValues.put(MovieEntry.COLUMN_MOVIE_ID, movieId);
                 movieValues.put(MovieEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
                 movieValues.put(MovieEntry.COLUMN_POSTER_PATH, posterPath);
                 movieValues.put(MovieEntry.COLUMN_OVERVIEW, overview);
                 movieValues.put(MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
                 movieValues.put(MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
                 movieValues.put(MovieEntry.COLUMN_BACKDROP_PATH, backdropPath);
-                movieValues.put(MovieEntry.COLUMN_MOVIE_ID, movieId);
 
                 cVVector.add(movieValues);
             }

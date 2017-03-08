@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import com.example.android.popularmovies.Movie;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 /**
@@ -19,11 +20,18 @@ public class MovieProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private MovieDbHelper mMovieDbHelper;
     static final int MOVIES = 100;
+    static final int MOVIES_WITH_ID = 101;
+
+    //movies.movie_id = ?
+    private static final String sMovieIdSelection =
+            MovieEntry.COLUMN_MOVIE_ID + " = ? ";
+
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MovieContract.CONTENT_AUTHORITY;
         matcher.addURI(authority, MovieContract.PATH_MOVIES, MOVIES);
+        matcher.addURI(authority, MovieContract.PATH_MOVIES + "/#", MOVIES_WITH_ID);
         return matcher;
     }
 
@@ -50,6 +58,9 @@ public class MovieProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
+            case MOVIES_WITH_ID:
+                retCursor = getMovieById(uri, projection, sortOrder);
+                break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -64,6 +75,8 @@ public class MovieProvider extends ContentProvider {
         switch (match) {
             case MOVIES:
                 return MovieEntry.CONTENT_DIR_TYPE;
+            case MOVIES_WITH_ID:
+                return MovieEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
@@ -103,6 +116,10 @@ public class MovieProvider extends ContentProvider {
             case MOVIES:
                 rowsDeleted = db.delete(MovieEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case MOVIES_WITH_ID:
+                long id = MovieEntry.getIdFromUri(uri);
+                rowsDeleted = db.delete(MovieEntry.TABLE_NAME,
+                        sMovieIdSelection, new String[]{Long.toString(id)});
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -162,5 +179,20 @@ public class MovieProvider extends ContentProvider {
             default:
                 return super.bulkInsert(uri, values);
         }
+    }
+
+    private Cursor getMovieById(Uri uri, String[] projection, String sortOrder) {
+        long id = MovieEntry.getIdFromUri(uri);
+        String selection = sMovieIdSelection;
+        String[] selectionArgs = new String[]{Long.toString(id)};
+        return mMovieDbHelper.getReadableDatabase().query(
+                MovieEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
     }
 }

@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 
-import com.example.android.popularmovies.data.MovieContract;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by noahkim on 11/2/16.
@@ -18,6 +20,8 @@ import com.squareup.picasso.Picasso;
 public class MovieGridAdapter extends CursorAdapter {
 
     private final String LOG_TAG = MovieGridAdapter.class.getSimpleName();
+
+    ArrayList<Movie> mMovies;
 
     public MovieGridAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -35,9 +39,7 @@ public class MovieGridAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        int posterColumnIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POSTER_PATH);
-        String moviePosterPath = cursor.getString(posterColumnIndex);
-
+        String moviePosterPath = cursor.getString(MovieEntry.COL_POSTER_PATH);
         ImageView posterImage = (ImageView) view.findViewById(R.id.poster_thumbnail);
         Picasso
                 .with(context)
@@ -47,4 +49,23 @@ public class MovieGridAdapter extends CursorAdapter {
 
 
     }
+
+//    public void add(Cursor cursor) {
+//        mMovies.clear();
+//        if (cursor != null && cursor.moveToFirst()) {
+//            do {
+//                long id = cursor.getLong(MovieEntry.COL_MOVIE_ID);
+//                String title = cursor.getString(MovieEntry.COL_ORIGINAL_TITLE);
+//                String posterPath = cursor.getString(MovieEntry.COL_POSTER_PATH);
+//                String overview = cursor.getString(MovieEntry.COL_OVERVIEW);
+//                double voterAverage = cursor.getDouble(MovieEntry.COL_VOTE_AVERAGE);
+//                String mReleaseDateView = cursor.getString(MovieEntry.COL_RELEASE_DATE);
+//                String backdropPath = cursor.getString(MovieEntry.COL_BACKDROP_PATH);
+//                Movie movie = new Movie(id, title, posterPath, overview, voterAverage,
+//                        mReleaseDateView, backdropPath);
+//                mMovies.add(movie);
+//            } while (cursor.moveToNext());
+//        }
+//        notifyDataSetChanged();
+//    }
 }

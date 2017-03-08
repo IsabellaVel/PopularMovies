@@ -31,23 +31,46 @@ public class Movie implements Parcelable {
     }
 
     public Movie(Cursor cursor) {
-        mId = cursor.getLong(cursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_ID));
-        mOriginalTitle = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_ORIGINAL_TITLE));
-        mMoviePoster = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH));
-        mOverview = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_OVERVIEW));
-        mVoteAverage = cursor.getDouble(cursor.getColumnIndex(MovieEntry.COLUMN_VOTE_AVERAGE));
-        mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_RELEASE_DATE));
-        mBackdropPoster = cursor.getString(cursor.getColumnIndex(MovieEntry.COLUMN_BACKDROP_PATH));
+        mId = cursor.getLong(MovieEntry.COL_MOVIE_ID);
+        mOriginalTitle = cursor.getString(MovieEntry.COL_ORIGINAL_TITLE);
+        mMoviePoster = cursor.getString(MovieEntry.COL_POSTER_PATH);
+        mOverview = cursor.getString(MovieEntry.COL_OVERVIEW);
+        mVoteAverage = cursor.getDouble(MovieEntry.COL_VOTE_AVERAGE);
+        mReleaseDate = cursor.getString(MovieEntry.COL_RELEASE_DATE);
+        mBackdropPoster = cursor.getString(MovieEntry.COL_BACKDROP_PATH);
+    }
+
+    public Movie(long id, String originalTitle, String moviePoster, String overview,
+                 double voteAverage, String releaseDate, String backdropPoster) {
+        mId = id;
+        mOriginalTitle = originalTitle;
+        mMoviePoster = moviePoster;
+        mOverview = overview;
+        mVoteAverage = voteAverage;
+        mReleaseDate = releaseDate;
+        mBackdropPoster = backdropPoster;
     }
 
     public Movie(Parcel parcel) {
-        mId = parcel.readLong();
-        mOriginalTitle = parcel.readString();
-        mMoviePoster = parcel.readString();
-        mOverview = parcel.readString();
-        mVoteAverage = parcel.readDouble();
-        mReleaseDate = parcel.readString();
-        mBackdropPoster = parcel.readString();
+        Movie movie = new Movie();
+        movie.mId = parcel.readLong();
+        movie.mOriginalTitle = parcel.readString();
+        movie.mMoviePoster = parcel.readString();
+        movie.mOverview = parcel.readString();
+        movie.mVoteAverage = parcel.readDouble();
+        movie.mReleaseDate = parcel.readString();
+        movie.mBackdropPoster = parcel.readString();
+
+    }
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(mId);
+        parcel.writeString(mOriginalTitle);
+        parcel.writeString(mMoviePoster);
+        parcel.writeString(mOverview);
+        parcel.writeDouble(mVoteAverage);
+        parcel.writeString(mReleaseDate);
+        parcel.writeString(mBackdropPoster);
     }
 
     public String getOriginalTitle() { return mOriginalTitle; }
@@ -62,16 +85,6 @@ public class Movie implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeLong(mId);
-        parcel.writeString(mOriginalTitle);
-        parcel.writeString(mMoviePoster);
-        parcel.writeString(mOverview);
-        parcel.writeDouble(mVoteAverage);
-        parcel.writeString(mReleaseDate);
-        parcel.writeString(mBackdropPoster);
-    }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
 

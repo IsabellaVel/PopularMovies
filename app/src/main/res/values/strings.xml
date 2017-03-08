@@ -7,7 +7,7 @@
     <string name="title_activity_detail">Details</string>
     <string name="label_release_date">Release Date</string>
     <string name="label_user_rating">User Rating</string>
-    <string name="label_plot_synopsis">Synopsis</string>
+    <string name="label_overview">Overview</string>
     <string name="action_top_rated">Top Rated</string>
     <string name="action_most_popular">Most Popular</string>
     <string name="title_activity_settings">Settings</string>

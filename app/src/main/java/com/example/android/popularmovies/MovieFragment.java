@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -58,7 +59,7 @@ public class MovieFragment extends Fragment
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
                     Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(MovieEntry.CONTENT_URI);
+                            .setData(MovieEntry.buildMovieUri(cursor.getLong(MovieEntry.COL_MOVIE_ID)));
                     startActivity(intent);
                 }
             }
@@ -79,13 +80,21 @@ public class MovieFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
     }
 
+    void onSortOrderChanged() {
+        updateMovies();
+        getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
+    }
+
     private void updateMovies() {
-        FetchMovieTask movieTask = new FetchMovieTask(getActivity(), movieGridAdapter);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String order = prefs.getString(
-                getString(R.string.pref_order_key),
-                getString(R.string.pref_order_default));
+        FetchMovieTask movieTask = new FetchMovieTask(getActivity());
+        String order = getSortOrder(getActivity());
         movieTask.execute(order);
+    }
+
+    public static String getSortOrder(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(context.getString(R.string.pref_order_key),
+                context.getString(R.string.pref_order_default));
     }
 
     @Override

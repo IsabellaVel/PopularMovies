@@ -34,6 +34,7 @@ public class MovieContract {
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_RELEASE_DATE = "release_date";
+        public static final String COLUMN_POPULARITY = "popularity";
         public static final String COLUMN_BACKDROP_PATH = "backdrop_path";
 
         public static final String[] COLUMNS = {
@@ -44,6 +45,7 @@ public class MovieContract {
                 COLUMN_OVERVIEW,
                 COLUMN_VOTE_AVERAGE,
                 COLUMN_RELEASE_DATE,
+                COLUMN_POPULARITY,
                 COLUMN_BACKDROP_PATH};
 
         public static Uri buildMovieUri(long id) {
@@ -65,7 +67,8 @@ public class MovieContract {
         public static final int COL_OVERVIEW = 4;
         public static final int COL_VOTE_AVERAGE = 5;
         public static final int COL_RELEASE_DATE = 6;
-        public static final int COL_BACKDROP_PATH = 7;
+        public static final int COL_POPULARITY = 7;
+        public static final int COL_BACKDROP_PATH = 8;
     }
 }
 

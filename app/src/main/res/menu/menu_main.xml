@@ -11,4 +11,12 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/menu_item_popular"
+        android:title="@string/pref_order_label_popular" />
+
+    <item
+        android:id="@+id/menu_item_top_rated"
+        android:title="@string/pref_order_label_top_rated"/>
+
 </menu>

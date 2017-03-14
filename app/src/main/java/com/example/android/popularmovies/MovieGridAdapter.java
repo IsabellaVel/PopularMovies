@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class MovieGridAdapter extends CursorAdapter {
 
     private final String LOG_TAG = MovieGridAdapter.class.getSimpleName();
+    private final String BASE_URL = "http://image.tmdb.org/t/p/w185";
 
     ArrayList<Movie> mMovies;
 
@@ -40,14 +42,11 @@ public class MovieGridAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         String moviePosterPath = cursor.getString(MovieEntry.COL_POSTER_PATH);
-        ImageView posterImage = (ImageView) view.findViewById(R.id.poster_thumbnail);
+        ImageView posterView = (ImageView) view.findViewById(R.id.poster_thumbnail);
         Picasso
                 .with(context)
-                .load("https://image.tmdb.org/t/p/w185/" + moviePosterPath)
-                .into(posterImage);
-//        Log.v(LOG_TAG, "Setting image " + movie.getMoviePosterURL());
-
-
+                .load(BASE_URL + moviePosterPath)
+                .into(posterView);
     }
 
 //    public void add(Cursor cursor) {
@@ -68,4 +67,5 @@ public class MovieGridAdapter extends CursorAdapter {
 //        }
 //        notifyDataSetChanged();
 //    }
+
 }

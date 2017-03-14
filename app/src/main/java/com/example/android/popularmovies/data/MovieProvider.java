@@ -120,6 +120,7 @@ public class MovieProvider extends ContentProvider {
                 long id = MovieEntry.getIdFromUri(uri);
                 rowsDeleted = db.delete(MovieEntry.TABLE_NAME,
                         sMovieIdSelection, new String[]{Long.toString(id)});
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -195,4 +196,5 @@ public class MovieProvider extends ContentProvider {
                 sortOrder
         );
     }
+
 }

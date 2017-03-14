@@ -31,6 +31,8 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
     private final Context mContext;
 
+    public static final String SORT_ORDER_POPULAR = "popular";
+    public static final String SORT_ORDER_TOP_RATED = "top_rated";
     public static final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
     public FetchMovieTask(Context context) {
@@ -46,6 +48,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
         final String TMDB_OVERVIEW = "overview";
         final String TMDB_VOTE_AVERAGE = "vote_average";
         final String TMDB_RELEASE_DATE = "release_date";
+        final String TMDB_POPULARITY = "popularity";
         final String TMDB_BACKDROP_PATH = "backdrop_path";
 
         // Parse JSON response string
@@ -64,6 +67,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
                 String overview;
                 double voteAverage;
                 String releaseDate;
+                double popularity;
                 String backdropPath;
 
                 // Get a single movie at position i within the list of movies
@@ -75,6 +79,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
                 overview = currentMovie.getString(TMDB_OVERVIEW);
                 voteAverage = currentMovie.getDouble(TMDB_VOTE_AVERAGE);
                 releaseDate = currentMovie.getString(TMDB_RELEASE_DATE);
+                popularity = currentMovie.getDouble(TMDB_POPULARITY);
                 backdropPath = currentMovie.getString(TMDB_BACKDROP_PATH);
 
                 ContentValues movieValues = new ContentValues();
@@ -85,6 +90,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
                 movieValues.put(MovieEntry.COLUMN_OVERVIEW, overview);
                 movieValues.put(MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
                 movieValues.put(MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
+                movieValues.put(MovieEntry.COLUMN_POPULARITY, popularity);
                 movieValues.put(MovieEntry.COLUMN_BACKDROP_PATH, backdropPath);
 
                 cVVector.add(movieValues);
@@ -117,19 +123,21 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
         BufferedReader reader = null;
 
         // Will contain the raw JSON response as a string.
-        String movieJsonStr = null;
+        String movieJsonStr;
 
         try {
-            final String MOVIE_BASE_URL =
-                    "http://api.themoviedb.org/3/movie/";
             final String APPID_PARAM = "api_key";
 
-            Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
+            Uri uri = new Uri.Builder()
+                    .scheme("http")
+                    .authority("api.themoviedb.org")
+                    .appendPath("3")
+                    .appendPath("movie")
                     .appendPath(sortOrder)
                     .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_MOVIE_API_KEY)
                     .build();
 
-            URL url = new URL(builtUri.toString());
+            URL url = new URL(uri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

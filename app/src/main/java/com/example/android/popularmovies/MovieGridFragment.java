@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
-import com.example.android.popularmovies.sync.MovieSyncAdapter;
 
 
 /**
@@ -29,7 +28,6 @@ import com.example.android.popularmovies.sync.MovieSyncAdapter;
 public class MovieGridFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    public static final String MOVIE_DATA = "MOVIE_DATA";
     private MovieGridAdapter movieGridAdapter;
 
     private static final int MOVIE_LOADER = 0;
@@ -109,17 +107,15 @@ public class MovieGridFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void onSortOrderChanged() {
+    void onSortOrderChanged() {
         updateMovies();
         getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
     }
 
     private void updateMovies() {
-//        FetchMovieTask movieTask = new FetchMovieTask(getActivity());
-//        String order = Utility.getDefaultSortOrder(getActivity());
-//        movieTask.execute(order);
-        getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
-        MovieSyncAdapter.syncImmediately(getActivity());
+        FetchMovieTask movieTask = new FetchMovieTask(getActivity());
+        String order = Utility.getDefaultSortOrder(getActivity());
+        movieTask.execute(order);
     }
 
     @Override

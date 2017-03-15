@@ -13,10 +13,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String mSortOrder;
 
-    private static String SORT_ORDER = "sort_order";
-    private static final int SORT_ORDER_POPULAR = 0;
-    private static final int SORT_ORDER_TOP_RATED = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

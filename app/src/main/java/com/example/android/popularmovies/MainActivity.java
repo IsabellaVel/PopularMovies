@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         if (sortOrder != null && !sortOrder.equals(mSortOrder)) {
             MovieGridFragment mf = (MovieGridFragment) getSupportFragmentManager().findFragmentByTag(MOVIEFRAGMENT_TAG);
             if (null != mf) {
-                mf.onSortOrderChanged();
+                mf.updateMovies();
             }
             mSortOrder = sortOrder;
         }

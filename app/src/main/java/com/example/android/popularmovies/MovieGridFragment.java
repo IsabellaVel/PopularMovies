@@ -107,21 +107,18 @@ public class MovieGridFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
     }
 
-    void onSortOrderChanged() {
-        updateMovies();
-        getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
-    }
 
-    private void updateMovies() {
+    void updateMovies() {
         FetchMovieTask movieTask = new FetchMovieTask(getActivity());
         String order = Utility.getDefaultSortOrder(getActivity());
         movieTask.execute(order);
+        getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String sort_criteria = Utility.getDefaultSortOrder(getContext());
-        final String selection = MovieEntry.COL_SORT_CRITERIA + " = ? ";
+        final String selection = MovieEntry.COLUMN_SORT_CRITERIA + " = ? ";
         final String[] selectionArgs = new String[]{sort_criteria};
         return new CursorLoader(getContext(),
                 MovieEntry.CONTENT_URI,

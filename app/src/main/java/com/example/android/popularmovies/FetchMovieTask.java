@@ -29,6 +29,7 @@ import java.util.Vector;
 
 public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
+    private String sortOrder;
     private final Context mContext;
 
     public static final String LOG_TAG = FetchMovieTask.class.getSimpleName();
@@ -48,8 +49,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
         final String TMDB_RELEASE_DATE = "release_date";
         final String TMDB_POPULARITY = "popularity";
         final String TMDB_BACKDROP_PATH = "backdrop_path";
-        final String SORT_CRITERIA = Utility.getDefaultSortOrder(mContext);
-
 
         // Parse JSON response string
         try {
@@ -92,7 +91,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
                 movieValues.put(MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
                 movieValues.put(MovieEntry.COLUMN_POPULARITY, popularity);
                 movieValues.put(MovieEntry.COLUMN_BACKDROP_PATH, backdropPath);
-                movieValues.put(MovieEntry.COLUMN_SORT_CRITERIA, SORT_CRITERIA);
+                movieValues.put(MovieEntry.COLUMN_SORT_CRITERIA, sortOrder);
                 cVVector.add(movieValues);
             }
 
@@ -117,7 +116,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
         if (params.length == 0)
             return null;
 
-        String sortOrder = params[0];
+        sortOrder = params[0];
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;

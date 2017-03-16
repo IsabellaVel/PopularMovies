@@ -31,8 +31,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
     private final Context mContext;
 
-    public static final String SORT_ORDER_POPULAR = "popular";
-    public static final String SORT_ORDER_TOP_RATED = "top_rated";
     public static final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
     public FetchMovieTask(Context context) {
@@ -50,6 +48,8 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
         final String TMDB_RELEASE_DATE = "release_date";
         final String TMDB_POPULARITY = "popularity";
         final String TMDB_BACKDROP_PATH = "backdrop_path";
+        final String SORT_CRITERIA = Utility.getDefaultSortOrder(mContext);
+
 
         // Parse JSON response string
         try {
@@ -92,7 +92,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
                 movieValues.put(MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
                 movieValues.put(MovieEntry.COLUMN_POPULARITY, popularity);
                 movieValues.put(MovieEntry.COLUMN_BACKDROP_PATH, backdropPath);
-
+                movieValues.put(MovieEntry.COLUMN_SORT_CRITERIA, SORT_CRITERIA);
                 cVVector.add(movieValues);
             }
 

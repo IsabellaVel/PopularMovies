@@ -120,11 +120,14 @@ public class MovieGridFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String sort_criteria = Utility.getDefaultSortOrder(getContext());
+        final String selection = MovieEntry.COL_SORT_CRITERIA + " = ? ";
+        final String[] selectionArgs = new String[]{sort_criteria};
         return new CursorLoader(getContext(),
                 MovieEntry.CONTENT_URI,
                 MovieEntry.COLUMNS,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null);
     }
 

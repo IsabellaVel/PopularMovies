@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.android.popularmovies.Movie;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 /**
@@ -32,7 +33,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
             MovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, " +
             MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
             MovieEntry.COLUMN_POPULARITY + " REAL NOT NULL, " +
-            MovieEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL " + " );";
+            MovieEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL, " +
+            MovieEntry.COLUMN_SORT_CRITERIA + " TEXT NOT NULL " + " );";
 
     @Override
     public void onCreate(SQLiteDatabase db) {

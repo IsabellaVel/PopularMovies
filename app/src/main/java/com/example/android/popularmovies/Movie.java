@@ -32,7 +32,7 @@ public class Movie implements Parcelable {
     }
 
     public Movie(Cursor cursor) {
-//        mId = cursor.getLong(MovieEntry.COL_MOVIE_ID);
+        mId = cursor.getLong(MovieEntry.COL_MOVIE_ID);
         mOriginalTitle = cursor.getString(MovieEntry.COL_ORIGINAL_TITLE);
         mMoviePoster = cursor.getString(MovieEntry.COL_POSTER_PATH);
         mOverview = cursor.getString(MovieEntry.COL_OVERVIEW);

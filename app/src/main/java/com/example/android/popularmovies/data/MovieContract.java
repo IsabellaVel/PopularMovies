@@ -36,6 +36,7 @@ public class MovieContract {
         public static final String COLUMN_RELEASE_DATE = "release_date";
         public static final String COLUMN_POPULARITY = "popularity";
         public static final String COLUMN_BACKDROP_PATH = "backdrop_path";
+        public static final String COLUMN_SORT_CRITERIA = "sort_criteria";
 
         public static final String[] COLUMNS = {
                 MovieEntry.TABLE_NAME + "." + MovieEntry._ID,
@@ -46,7 +47,9 @@ public class MovieContract {
                 COLUMN_VOTE_AVERAGE,
                 COLUMN_RELEASE_DATE,
                 COLUMN_POPULARITY,
-                COLUMN_BACKDROP_PATH};
+                COLUMN_BACKDROP_PATH,
+                COLUMN_SORT_CRITERIA
+        };
 
         public static Uri buildMovieUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -69,6 +72,7 @@ public class MovieContract {
         public static final int COL_RELEASE_DATE = 6;
         public static final int COL_POPULARITY = 7;
         public static final int COL_BACKDROP_PATH = 8;
+        public static final int COL_SORT_CRITERIA = 9;
     }
 }
 

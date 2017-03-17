@@ -19,6 +19,7 @@ public class Movie implements Parcelable {
     private String mReleaseDate;
     private double mPopularity;
     private String mBackdropPoster;
+    private String mSortCriteria;
 
     private final String BASE_URL = "https://image.tmdb.org/t/p/";
     private final String IMAGE_SIZE = "w185";
@@ -43,14 +44,17 @@ public class Movie implements Parcelable {
     }
 
     public Movie(long id, String originalTitle, String moviePoster, String overview,
-                 double voteAverage, String releaseDate, String backdropPoster) {
+                 double voteAverage, String releaseDate, double popularity,
+                 String backdropPoster, String sortCriteria) {
         mId = id;
         mOriginalTitle = originalTitle;
         mMoviePoster = moviePoster;
         mOverview = overview;
         mVoteAverage = voteAverage;
         mReleaseDate = releaseDate;
+        mPopularity = popularity;
         mBackdropPoster = backdropPoster;
+        mSortCriteria = sortCriteria;
     }
 
     public Movie(Parcel parcel) {

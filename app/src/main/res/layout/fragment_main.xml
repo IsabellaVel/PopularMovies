@@ -10,4 +10,5 @@
     android:horizontalSpacing="0dp"
     tools:context=".MovieGridFragment"
     android:id="@+id/movies_grid">
+
 </GridView>

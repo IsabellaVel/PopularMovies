@@ -24,6 +24,10 @@
     <string name="sync_account_type">popularmovies.example.com</string>
     <string name="content_authority">com.example.android.popularmovies.app</string>
 
+    <string name="menu_item_favorites">Favorites</string>
+
     <string name="action_favorites">Favorites</string>
+
+    <string name="action_popular_movies">Popular Movies</string>
 
 </resources>

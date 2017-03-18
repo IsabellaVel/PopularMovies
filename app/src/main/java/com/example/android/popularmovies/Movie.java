@@ -41,6 +41,7 @@ public class Movie implements Parcelable {
         mReleaseDate = cursor.getString(MovieEntry.COL_RELEASE_DATE);
         mPopularity = cursor.getDouble(MovieEntry.COL_POPULARITY);
         mBackdropPoster = cursor.getString(MovieEntry.COL_BACKDROP_PATH);
+        mSortCriteria = cursor.getString(MovieEntry.COL_SORT_CRITERIA);
     }
 
     public Movie(long id, String originalTitle, String moviePoster, String overview,

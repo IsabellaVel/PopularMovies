@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.popularmovies.Movie;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
+
 
 /**
  * Created by noahkim on 2/21/17.
@@ -36,15 +38,28 @@ public class MovieDbHelper extends SQLiteOpenHelper {
             MovieEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL, " +
             MovieEntry.COLUMN_SORT_CRITERIA + " TEXT NOT NULL " + " );";
 
+    final String SQL_CREATE_FAVORITES_TABLE = "CREATE TABLE " + FavoritesEntry.TABLE_NAME + " (" +
+            MovieEntry._ID + " INTEGER PRIMARY KEY, " +
+            MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +
+            MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
+            MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
+            MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
+            MovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, " +
+            MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
+            MovieEntry.COLUMN_POPULARITY + " REAL NOT NULL, " +
+            MovieEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL, " +
+            MovieEntry.COLUMN_SORT_CRITERIA + " TEXT NOT NULL " + " );";
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(SQL_CREATE_MOVIES_TABLE);
+        db.execSQL(SQL_CREATE_FAVORITES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + MovieEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + FavoritesEntry.TABLE_NAME);
         onCreate(db);
     }
 }

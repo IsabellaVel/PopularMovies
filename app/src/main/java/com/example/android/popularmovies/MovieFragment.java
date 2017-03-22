@@ -25,14 +25,14 @@ import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 public class MovieFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private MovieAdapter mMovieAdapter;
     private GridView gridView;
     private RecyclerView mRecyclerView;
     private String mSortOrder;
     private static final int MOVIE_LOADER = 0;
+    MovieAdapter mMovieAdapter;
 
     public interface Callback {
-        public void onItemSelected(Uri idUri, MovieAdapter.MovieAdapterViewHolder vh);
+        public void onItemSelected(Uri idUri, MovieAdapter.MovieItemViewHolder vh);
     }
 
     public MovieFragment() {
@@ -43,7 +43,7 @@ public class MovieFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.action_popular_movies));
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.action_popular_movies));
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -63,27 +63,13 @@ public class MovieFragment extends Fragment
         // specify an adapter
         mRecyclerView.setAdapter(mMovieAdapter);
 
-//        // Set onItemClickListener on an individual poster
-//        mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-//                if (cursor != null) {
-//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-//                            .setData(MovieEntry.buildMovieUri(cursor.getLong(MovieEntry.COL_MOVIE_ID)));
-//                    startActivity(intent);
-//                }
-//            }
-//        });
-        updateMovies();
         return rootView;
     }
 
     @Override
     public void onStart() {
-        super.onStart();
         updateMovies();
-        setHasOptionsMenu(true);
+        super.onStart();
     }
 
     @Override

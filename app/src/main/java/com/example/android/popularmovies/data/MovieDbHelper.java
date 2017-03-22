@@ -4,9 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.popularmovies.Movie;
-import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 
 /**
@@ -27,8 +26,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     // Create a table to hold movies
     final String SQL_CREATE_MOVIES_TABLE = "CREATE TABLE " + MovieEntry.TABLE_NAME + " (" +
-            MovieEntry._ID + " INTEGER PRIMARY KEY, " +
-            MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +
+            MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            MovieEntry.COLUMN_MOVIE_ID + " INTEGER UNIQUE, " +
             MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
             MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
             MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
@@ -39,8 +38,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
             MovieEntry.COLUMN_SORT_CRITERIA + " TEXT NOT NULL " + " );";
 
     final String SQL_CREATE_FAVORITES_TABLE = "CREATE TABLE " + FavoritesEntry.TABLE_NAME + " (" +
-            MovieEntry._ID + " INTEGER PRIMARY KEY, " +
-            MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +
+            MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            MovieEntry.COLUMN_MOVIE_ID + " INTEGER UNIQUE, " +
             MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
             MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
             MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +

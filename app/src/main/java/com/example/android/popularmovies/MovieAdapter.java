@@ -18,11 +18,10 @@ import java.util.List;
  * Created by noahkim on 11/2/16.
  */
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemViewHolder> {
 
     private final String LOG_TAG = MovieAdapter.class.getSimpleName();
     private final Context mContext;
-    private MovieAdapterOnClickHandler mClickHandler;
     private final View mEmptyView;
     private Cursor mCursor;
     private List<Movie> mMovieList;
@@ -32,30 +31,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         mEmptyView = emptyView;
     }
 
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mImageView;
-        public View mView;
-
-        public MovieAdapterViewHolder(View itemView) {
-            super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.poster_thumbnail);
-            mView = itemView;
-        }
-    }
-
-    public interface MovieAdapterOnClickHandler {
-        void onClick(long id, MovieAdapterViewHolder vh);
-    }
-
     @Override
-    public MovieAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MovieItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_posters, parent, false);
-        MovieAdapterViewHolder viewHolder = new MovieAdapterViewHolder(view);
+        MovieItemViewHolder viewHolder = new MovieItemViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(MovieItemViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         final Movie movie = new Movie(mCursor);
         String moviePosterPath = movie.getMoviePosterURL();
@@ -81,31 +65,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         return mCursor.getCount();
     }
 
-    public void swapCursor(Cursor cursor) {
+    void swapCursor(Cursor cursor) {
         mCursor = cursor;
         notifyDataSetChanged();
         mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
-//    @Override
-//    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-//
-//        return LayoutInflater.from(context).inflate(
-//                R.layout.item_movie_posters, parent, false);
-//    }
-//
-//    @Override
-//    public void bindView(View view, Context context, Cursor cursor) {
-//
-//        Movie movie = new Movie(cursor);
-//
-//        String moviePosterPath = movie.getMoviePosterURL();
-//        ImageView posterView = (ImageView) view.findViewById(R.id.poster_thumbnail);
-//        Picasso
-//                .with(context)
-//                .load(moviePosterPath)
-//                .into(posterView);
-//    }
+    public class MovieItemViewHolder extends RecyclerView.ViewHolder {
+        public final ImageView mImageView;
+        public final View mView;
 
+        public MovieItemViewHolder(View itemView) {
+            super(itemView);
+            mImageView = (ImageView) itemView.findViewById(R.id.poster_thumbnail);
+            mView = itemView;
+        }
+    }
 }
 

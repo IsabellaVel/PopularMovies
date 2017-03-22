@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements MovieFragment.Cal
     }
 
     @Override
-    public void onItemSelected(Uri contentUri, MovieAdapter.MovieAdapterViewHolder vh) {
+    public void onItemSelected(Uri contentUri, MovieAdapter.MovieItemViewHolder vh) {
         Bundle args = new Bundle();
         Intent intent = new Intent(this, DetailActivity.class)
                 .setData(contentUri);

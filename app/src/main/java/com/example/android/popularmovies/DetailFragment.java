@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
@@ -98,21 +97,39 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
 
-            String title = data.getString(MovieEntry.COL_ORIGINAL_TITLE);
+//            String title = data.getString(MovieEntry.COL_ORIGINAL_TITLE);
+//            mTitleView.setText(title);
+//
+//            String releaseDate = data.getString(MovieEntry.COL_RELEASE_DATE);
+//            mReleaseDateView.setText(releaseDate);
+//
+//            String voteAverage = data.getString(MovieEntry.COL_VOTE_AVERAGE);
+//            mUserRatingView.setText(voteAverage);
+//
+//            String overview = data.getString(MovieEntry.COL_OVERVIEW);
+//            mOverviewView.setText(overview);
+//
+//            String moviePoster = data.getString(MovieEntry.COL_POSTER_PATH);
+//            Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w185/"
+//                    + moviePoster).into(mPosterView);
+
+            Movie movie = new Movie(data);
+            String title = movie.getOriginalTitle();
             mTitleView.setText(title);
 
-            String releaseDate = data.getString(MovieEntry.COL_RELEASE_DATE);
+            String releaseDate = movie.getReleaseDate();
             mReleaseDateView.setText(releaseDate);
 
-            String voteAverage = data.getString(MovieEntry.COL_VOTE_AVERAGE);
+            String voteAverage = movie.getVoteAverage();
             mUserRatingView.setText(voteAverage);
 
-            String overview = data.getString(MovieEntry.COL_OVERVIEW);
+            String overview = movie.getOverview();
             mOverviewView.setText(overview);
 
-            String moviePoster = data.getString(MovieEntry.COL_POSTER_PATH);
-            Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w185/"
-                    + moviePoster).into(mPosterView);
+            String moviePoster = movie.getMoviePosterURL();
+            Picasso.with(getContext())
+                    .load(moviePoster)
+                    .into(mPosterView);
 
         }
 

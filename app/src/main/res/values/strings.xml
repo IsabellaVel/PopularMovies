@@ -30,4 +30,8 @@
 
     <string name="action_popular_movies">Popular Movies</string>
 
+    <!-- Empty Movie Database -->
+    <string name="empty_movie_list">No Movie Information Available</string>
+
+
 </resources>

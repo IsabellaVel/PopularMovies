@@ -1,23 +1,21 @@
 package com.example.android.popularmovies;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieFragment.Callback {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     private final String MOVIEFRAGMENT_TAG = "MFTAG";
 
     private String mSortOrder;
-    MovieGridFragment movieGridFragment;
+    MovieFragment movieGridFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MovieGridFragment(), MOVIEFRAGMENT_TAG)
+                    .add(R.id.container, new MovieFragment(), MOVIEFRAGMENT_TAG)
                     .commit();
         }
     }
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        movieGridFragment = (MovieGridFragment) getSupportFragmentManager().findFragmentByTag(MOVIEFRAGMENT_TAG);
+        movieGridFragment = (MovieFragment) getSupportFragmentManager().findFragmentByTag(MOVIEFRAGMENT_TAG);
 
         // Handle action bar item clicks here
         int id = item.getItemId();
@@ -79,5 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
         public void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
+    }
+
+    @Override
+    public void onItemSelected(Uri contentUri, MovieAdapter.MovieAdapterViewHolder vh) {
+        Bundle args = new Bundle();
+        Intent intent = new Intent(this, DetailActivity.class)
+                .setData(contentUri);
+        ActivityCompat.startActivity(this, intent, args);
     }
 }

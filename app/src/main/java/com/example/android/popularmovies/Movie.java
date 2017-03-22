@@ -15,9 +15,9 @@ public class Movie implements Parcelable {
     private String mOriginalTitle;
     private String mMoviePoster;
     private String mOverview;
-    private double mVoteAverage;
+    private String mVoteAverage;
     private String mReleaseDate;
-    private double mPopularity;
+    private String mPopularity;
     private String mBackdropPoster;
     private String mSortCriteria;
 
@@ -37,26 +37,26 @@ public class Movie implements Parcelable {
         mOriginalTitle = cursor.getString(MovieEntry.COL_ORIGINAL_TITLE);
         mMoviePoster = cursor.getString(MovieEntry.COL_POSTER_PATH);
         mOverview = cursor.getString(MovieEntry.COL_OVERVIEW);
-        mVoteAverage = cursor.getDouble(MovieEntry.COL_VOTE_AVERAGE);
+        mVoteAverage = cursor.getString(MovieEntry.COL_VOTE_AVERAGE);
         mReleaseDate = cursor.getString(MovieEntry.COL_RELEASE_DATE);
-        mPopularity = cursor.getDouble(MovieEntry.COL_POPULARITY);
+        mPopularity = cursor.getString(MovieEntry.COL_POPULARITY);
         mBackdropPoster = cursor.getString(MovieEntry.COL_BACKDROP_PATH);
         mSortCriteria = cursor.getString(MovieEntry.COL_SORT_CRITERIA);
     }
 
-    public Movie(long id, String originalTitle, String moviePoster, String overview,
-                 double voteAverage, String releaseDate, double popularity,
-                 String backdropPoster, String sortCriteria) {
-        mId = id;
-        mOriginalTitle = originalTitle;
-        mMoviePoster = moviePoster;
-        mOverview = overview;
-        mVoteAverage = voteAverage;
-        mReleaseDate = releaseDate;
-        mPopularity = popularity;
-        mBackdropPoster = backdropPoster;
-        mSortCriteria = sortCriteria;
-    }
+//    public Movie(long id, String originalTitle, String moviePoster, String overview,
+//                 String voteAverage, String releaseDate, String popularity,
+//                 String backdropPoster, String sortCriteria) {
+//        mId = id;
+//        mOriginalTitle = originalTitle;
+//        mMoviePoster = moviePoster;
+//        mOverview = overview;
+//        mVoteAverage = voteAverage;
+//        mReleaseDate = releaseDate;
+//        mPopularity = popularity;
+//        mBackdropPoster = backdropPoster;
+//        mSortCriteria = sortCriteria;
+//    }
 
     public Movie(Parcel parcel) {
         Movie movie = new Movie();
@@ -64,9 +64,11 @@ public class Movie implements Parcelable {
         movie.mOriginalTitle = parcel.readString();
         movie.mMoviePoster = parcel.readString();
         movie.mOverview = parcel.readString();
-        movie.mVoteAverage = parcel.readDouble();
+        movie.mVoteAverage = parcel.readString();
         movie.mReleaseDate = parcel.readString();
+        movie.mPopularity = parcel.readString();
         movie.mBackdropPoster = parcel.readString();
+        movie.mSortCriteria = parcel.readString();
 
     }
     @Override
@@ -75,15 +77,19 @@ public class Movie implements Parcelable {
         parcel.writeString(mOriginalTitle);
         parcel.writeString(mMoviePoster);
         parcel.writeString(mOverview);
-        parcel.writeDouble(mVoteAverage);
+        parcel.writeString(mVoteAverage);
         parcel.writeString(mReleaseDate);
+        parcel.writeString(mPopularity);
         parcel.writeString(mBackdropPoster);
+        parcel.writeString(mSortCriteria);
+
     }
 
+    public long getMovieId() {return mId;}
     public String getOriginalTitle() { return mOriginalTitle; }
     public String getMoviePosterURL() { return BASE_URL + IMAGE_SIZE + mMoviePoster; }
     public String getOverview() { return mOverview; }
-    public double getVoteAverage() { return mVoteAverage; }
+    public String getVoteAverage() { return mVoteAverage; }
     public String getReleaseDate() { return mReleaseDate; }
     public String getBackdropPoster() { return mBackdropPoster; }
 

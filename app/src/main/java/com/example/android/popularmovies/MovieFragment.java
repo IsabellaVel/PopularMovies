@@ -28,7 +28,9 @@ public class MovieFragment extends Fragment
     private GridView gridView;
     private RecyclerView mRecyclerView;
     private String mSortOrder;
-    private static final int MOVIE_LOADER = 0;
+    public static final int MOVIE_LOADER = 0;
+    public static final int FAVORITES_LOADER = 1;
+
     MovieAdapter mMovieAdapter;
 
     public interface Callback {
@@ -43,7 +45,7 @@ public class MovieFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.action_popular_movies));
+        ((MainActivity) getActivity()).setActionBarTitle(getString(R.string.action_popular_movies));
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -87,11 +89,14 @@ public class MovieFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri mUri;
         mSortOrder = Utility.getDefaultSortOrder(getContext());
         final String selection = MovieEntry.COLUMN_SORT_CRITERIA + " = ? ";
         final String[] selectionArgs = new String[]{mSortOrder};
+
+        mUri = MovieEntry.CONTENT_URI;
         return new CursorLoader(getContext(),
-                MovieEntry.CONTENT_URI,
+                mUri,
                 MovieEntry.COLUMNS,
                 selection,
                 selectionArgs,

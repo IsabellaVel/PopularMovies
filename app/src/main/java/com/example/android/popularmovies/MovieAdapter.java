@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 /**
  * Created by noahkim on 11/2/16.
  */
@@ -24,7 +22,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
     private final Context mContext;
     private final View mEmptyView;
     private Cursor mCursor;
-    private List<Movie> mMovieList;
 
     public MovieAdapter(Context context, View emptyView) {
         mContext = context;
@@ -48,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
                 .load(moviePosterPath)
                 .into(holder.mImageView);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
@@ -73,12 +70,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
     public class MovieItemViewHolder extends RecyclerView.ViewHolder {
         public final ImageView mImageView;
-        public final View mView;
 
         public MovieItemViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.poster_thumbnail);
-            mView = itemView;
         }
     }
 }

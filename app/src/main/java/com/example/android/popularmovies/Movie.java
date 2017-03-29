@@ -1,9 +1,11 @@
 package com.example.android.popularmovies;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 /**
@@ -20,14 +22,8 @@ public class Movie implements Parcelable {
     private String mPopularity;
     private String mBackdropPoster;
     private String mSortCriteria;
-
     private final String BASE_URL = "https://image.tmdb.org/t/p/";
     private final String IMAGE_SIZE = "w185";
-    private final String TMDB_TITLE = "original_title";
-    private final String TMDB_POSTER = "poster_path";
-    private final String TMDB_SYNOPSIS = "overview";
-    private final String TMDB_USER_RATING = "vote_average";
-    private final String TMDB_RELEASE_DATE = "release_date";
 
     private Movie() {
     }
@@ -58,6 +54,20 @@ public class Movie implements Parcelable {
 //        mSortCriteria = sortCriteria;
 //    }
 
+    public ContentValues toFaveContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(FavoritesEntry.COLUMN_MOVIE_ID, mId);
+        values.put(FavoritesEntry.COLUMN_ORIGINAL_TITLE, mOriginalTitle);
+        values.put(FavoritesEntry.COLUMN_OVERVIEW, mOverview);
+        values.put(FavoritesEntry.COLUMN_RELEASE_DATE, mReleaseDate);
+        values.put(FavoritesEntry.COLUMN_POSTER_PATH, mMoviePoster);
+        values.put(FavoritesEntry.COLUMN_POPULARITY, mPopularity);
+        values.put(FavoritesEntry.COLUMN_VOTE_AVERAGE, mVoteAverage);
+        values.put(FavoritesEntry.COLUMN_BACKDROP_PATH, mBackdropPoster);
+        values.put(FavoritesEntry.COLUMN_SORT_CRITERIA, mSortCriteria);
+        return values;
+    }
+
     public Movie(Parcel parcel) {
         Movie movie = new Movie();
         movie.mId = parcel.readLong();
@@ -69,8 +79,8 @@ public class Movie implements Parcelable {
         movie.mPopularity = parcel.readString();
         movie.mBackdropPoster = parcel.readString();
         movie.mSortCriteria = parcel.readString();
-
     }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(mId);

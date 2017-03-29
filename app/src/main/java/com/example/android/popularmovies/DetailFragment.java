@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.data.FavoritesHelper;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
@@ -27,13 +29,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     static final String DETAIL_URI = "URI";
-
     private static final int DETAIL_LOADER = 0;
 
     TextView mTitleView, mReleaseDateView, mUserRatingView, mOverviewView;
     ImageView mPosterView;
     FloatingActionButton fab;
-
+    private FavoritesHelper mFavoritesHelper;
+    private Movie movie;
+    private long currentMovieId;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -52,18 +55,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mUserRatingView = (TextView) rootView.findViewById(R.id.user_rating);
         mOverviewView = (TextView) rootView.findViewById(R.id.overview);
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        if (fab != null) {
-            fab.setOnClickListener(this);
-        }
 
-        // Populate views with data
-//            mTitleView.setText(getString(MovieEntry.COL_ORIGINAL_TITLE));
-//            Picasso.with(getContext()).load(movie.getMoviePosterURL()).into(mPosterView);
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-//            mReleaseDateView.setText(dateFormat.format(movie.getReleaseDate()));
-//            mUserRatingView.setText(String.valueOf(movie.getVoteAverage()));
-//            mOverviewView.setText(movie.getOverview());
-
+//        updateFab();
         return rootView;
     }
 
@@ -97,24 +90,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
 
-//            String title = data.getString(MovieEntry.COL_ORIGINAL_TITLE);
-//            mTitleView.setText(title);
-//
-//            String releaseDate = data.getString(MovieEntry.COL_RELEASE_DATE);
-//            mReleaseDateView.setText(releaseDate);
-//
-//            String voteAverage = data.getString(MovieEntry.COL_VOTE_AVERAGE);
-//            mUserRatingView.setText(voteAverage);
-//
-//            String overview = data.getString(MovieEntry.COL_OVERVIEW);
-//            mOverviewView.setText(overview);
-//
-//            String moviePoster = data.getString(MovieEntry.COL_POSTER_PATH);
-//            Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w185/"
-//                    + moviePoster).into(mPosterView);
+            mFavoritesHelper = new FavoritesHelper(getContext());
+            movie = new Movie(data);
 
-            Movie movie = new Movie(data);
-            String title = movie.getOriginalTitle();
+            final String title = movie.getOriginalTitle();
             mTitleView.setText(title);
 
             String releaseDate = movie.getReleaseDate();
@@ -131,8 +110,21 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     .load(moviePoster)
                     .into(mPosterView);
 
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentMovieId = movie.getMovieId();
+                    if (!mFavoritesHelper.isFavorite(currentMovieId)) {
+                        mFavoritesHelper.addToFavorites(movie);
+                        Snackbar.make(getView(), "Added to Favorites", Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        mFavoritesHelper.deleteFromFavorites(currentMovieId);
+                        Snackbar.make(getView(), "Deleted from Favorites", Snackbar.LENGTH_SHORT).show();
+                    }
+                    updateFab();
+                }
+            });
         }
-
     }
 
     @Override
@@ -142,6 +134,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onClick(View view) {
+    }
 
+    private void updateFab() {
+        if (mFavoritesHelper.isFavorite(currentMovieId)) {
+            fab.setImageResource(R.drawable.ic_favorite);
+        } else {
+            fab.setImageResource(R.drawable.ic_favorite_border);
+        }
     }
 }

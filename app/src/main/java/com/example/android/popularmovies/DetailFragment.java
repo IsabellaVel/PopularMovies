@@ -6,15 +6,12 @@ package com.example.android.popularmovies;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.data.FavoritesHelper;
-import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
+public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     static final String DETAIL_URI = "URI";
@@ -42,12 +38,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onResume() {
-//        updateFab();
-        super.onResume();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,56 +52,32 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mOverviewView = (TextView) rootView.findViewById(R.id.overview);
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
 
-//        updateFab();
-        return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.v(LOG_TAG, "In onCreateLoader");
         Intent intent = getActivity().getIntent();
         if (intent == null) {
             return null;
         }
+        Uri movieUri = intent.getData();
 
-        // Create and return a CursorLoader that will take care of creating a Cursor
-        // for the data being displayed
-        return new CursorLoader(
-                getActivity(),
-                intent.getData(),
-                MovieEntry.COLUMNS,
-                null,
-                null,
-                null
-        );
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
+        Cursor cursor = getActivity().getContentResolver().query(movieUri, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            String title, releaseDate, voteAverage, overview, moviePoster;
 
             mFavoritesHelper = new FavoritesHelper(getContext());
-            movie = new Movie(data);
+            movie = new Movie(cursor);
 
-            final String title = movie.getOriginalTitle();
+            title = movie.getOriginalTitle();
             mTitleView.setText(title);
 
-            String releaseDate = movie.getReleaseDate();
+            releaseDate = movie.getReleaseDate();
             mReleaseDateView.setText(releaseDate);
 
-            String voteAverage = movie.getVoteAverage();
+            voteAverage = movie.getVoteAverage();
             mUserRatingView.setText(voteAverage);
 
-            String overview = movie.getOverview();
+            overview = movie.getOverview();
             mOverviewView.setText(overview);
 
-            String moviePoster = movie.getMoviePosterURL();
+            moviePoster = movie.getMoviePosterURL();
             Picasso.with(getContext())
                     .load(moviePoster)
                     .into(mPosterView);
@@ -130,13 +96,84 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     updateFab();
                 }
             });
+            cursor.close();
         }
+
+
+        return rootView;
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
+
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        Log.v(LOG_TAG, "In onCreateLoader");
+//        Intent intent = getActivity().getIntent();
+//        if (intent == null) {
+//            return null;
+//        }
+//
+//        // Create and return a CursorLoader that will take care of creating a Cursor
+//        // for the data being displayed
+//        return new CursorLoader(
+//                getActivity(),
+//                intent.getData(),
+//                MovieEntry.COLUMNS,
+//                null,
+//                null,
+//                null
+//        );
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//        if (data != null && data.moveToFirst()) {
+//
+//            mFavoritesHelper = new FavoritesHelper(getContext());
+//            movie = new Movie(data);
+//
+//            final String title = movie.getOriginalTitle();
+//            mTitleView.setText(title);
+//
+//            String releaseDate = movie.getReleaseDate();
+//            mReleaseDateView.setText(releaseDate);
+//
+//            String voteAverage = movie.getVoteAverage();
+//            mUserRatingView.setText(voteAverage);
+//
+//            String overview = movie.getOverview();
+//            mOverviewView.setText(overview);
+//
+//            String moviePoster = movie.getMoviePosterURL();
+//            Picasso.with(getContext())
+//                    .load(moviePoster)
+//                    .into(mPosterView);
+//
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    currentMovieId = movie.getMovieId();
+//                    if (!mFavoritesHelper.isFavorite(currentMovieId)) {
+//                        mFavoritesHelper.addToFavorites(movie);
+//                        Snackbar.make(getView(), "Added to Favorites", Snackbar.LENGTH_SHORT).show();
+//                    } else {
+//                        mFavoritesHelper.deleteFromFavorites(currentMovieId);
+//                        Snackbar.make(getView(), "Deleted from Favorites", Snackbar.LENGTH_SHORT).show();
+//                    }
+//                    updateFab();
+//                }
+//            });
+//        }
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//
+//    }
 
     @Override
     public void onClick(View view) {

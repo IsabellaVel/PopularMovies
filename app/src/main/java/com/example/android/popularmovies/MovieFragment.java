@@ -12,12 +12,15 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,9 +72,38 @@ public class MovieFragment extends Fragment
     }
 
     @Override
-    public void onStart() {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.menu_item_popular:
+                Utility.setSortOrder(getContext(), getActivity().getString(R.string.pref_order_popular));
+                break;
+            case R.id.menu_item_top_rated:
+                Utility.setSortOrder(getContext(), getActivity().getString(R.string.pref_order_top_rated));
+                break;
+            case R.id.menu_item_favorites:
+                getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER, null, this);
+                return true;
+        }
         updateMovies();
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    @Override
+    public void onStart() {
         super.onStart();
+        updateMovies();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -89,18 +121,26 @@ public class MovieFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri mUri;
         mSortOrder = Utility.getDefaultSortOrder(getContext());
         final String selection = MovieEntry.COLUMN_SORT_CRITERIA + " = ? ";
         final String[] selectionArgs = new String[]{mSortOrder};
 
-        mUri = MovieEntry.CONTENT_URI;
-        return new CursorLoader(getContext(),
-                mUri,
-                MovieEntry.COLUMNS,
-                selection,
-                selectionArgs,
-                null);
+        if (id == FAVORITES_LOADER) {
+            return new CursorLoader(
+                    getContext(),
+                    FavoritesEntry.CONTENT_URI,
+                    FavoritesEntry.COLUMNS,
+                    null,
+                    null,
+                    null);
+        } else {
+            return new CursorLoader(getContext(),
+                    MovieEntry.CONTENT_URI,
+                    MovieEntry.COLUMNS,
+                    selection,
+                    selectionArgs,
+                    null);
+        }
     }
 
     @Override

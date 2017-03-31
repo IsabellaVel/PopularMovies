@@ -4,14 +4,12 @@ package com.example.android.popularmovies;
  * Created by noahkim on 3/7/17.
  */
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +22,7 @@ import com.squareup.picasso.Picasso;
 public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-    static final String DETAIL_URI = "URI";
-    private static final int DETAIL_LOADER = 0;
-
-    TextView mTitleView, mReleaseDateView, mUserRatingView, mOverviewView;
+    TextView mTitleView, mReleaseDateView, mUserRatingView, mOverviewView, mSnackbarView;
     ImageView mPosterView;
     FloatingActionButton fab;
     private FavoritesHelper mFavoritesHelper;
@@ -52,138 +47,69 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         mOverviewView = (TextView) rootView.findViewById(R.id.overview);
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
 
-        Intent intent = getActivity().getIntent();
-        if (intent == null) {
-            return null;
-        }
-        Uri movieUri = intent.getData();
+        movie = getActivity().getIntent().getExtras().getParcelable(MovieAdapter.MOVIE_DETAILS);
+        String title, releaseDate, voteAverage, overview, moviePoster;
 
-        Cursor cursor = getActivity().getContentResolver().query(movieUri, null, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            String title, releaseDate, voteAverage, overview, moviePoster;
+        title = movie.getOriginalTitle();
+        mTitleView.setText(title);
 
-            mFavoritesHelper = new FavoritesHelper(getContext());
-            movie = new Movie(cursor);
+        releaseDate = movie.getReleaseDate();
+        mReleaseDateView.setText(releaseDate);
 
-            title = movie.getOriginalTitle();
-            mTitleView.setText(title);
+        voteAverage = movie.getVoteAverage();
+        mUserRatingView.setText(voteAverage);
 
-            releaseDate = movie.getReleaseDate();
-            mReleaseDateView.setText(releaseDate);
+        overview = movie.getOverview();
+        mOverviewView.setText(overview);
 
-            voteAverage = movie.getVoteAverage();
-            mUserRatingView.setText(voteAverage);
+        moviePoster = movie.getMoviePosterURL();
+        Picasso.with(getContext())
+                .load(moviePoster)
+                .into(mPosterView);
 
-            overview = movie.getOverview();
-            mOverviewView.setText(overview);
+        mFavoritesHelper = new FavoritesHelper(getContext());
 
-            moviePoster = movie.getMoviePosterURL();
-            Picasso.with(getContext())
-                    .load(moviePoster)
-                    .into(mPosterView);
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currentMovieId = movie.getMovieId();
-                    if (!mFavoritesHelper.isFavorite(currentMovieId)) {
-                        mFavoritesHelper.addToFavorites(movie);
-                        Snackbar.make(getView(), "Added to Favorites", Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        mFavoritesHelper.deleteFromFavorites(currentMovieId);
-                        Snackbar.make(getView(), "Deleted from Favorites", Snackbar.LENGTH_SHORT).show();
-                    }
-                    updateFab();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mFavoritesHelper.isFavorite(currentMovieId)) {
+                    mFavoritesHelper.addToFavorites(movie);
+                    Log.d(LOG_TAG, "Movie added to favorites");
+                    Snackbar.make(getView(), getString(R.string.snackbar_added_to_favorites), Snackbar.LENGTH_SHORT).show();
+                } else {
+                    mFavoritesHelper.deleteFromFavorites(currentMovieId);
+                    Log.d(LOG_TAG, "Movie deleted from favorites");
+                    Snackbar.make(getView(), getString(R.string.snackbar_removed_from_favorites), Snackbar.LENGTH_SHORT).show();
                 }
-            });
-            cursor.close();
-        }
-
+                updateFab();
+            }
+        });
 
         return rootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
-
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        Log.v(LOG_TAG, "In onCreateLoader");
-//        Intent intent = getActivity().getIntent();
-//        if (intent == null) {
-//            return null;
-//        }
-//
-//        // Create and return a CursorLoader that will take care of creating a Cursor
-//        // for the data being displayed
-//        return new CursorLoader(
-//                getActivity(),
-//                intent.getData(),
-//                MovieEntry.COLUMNS,
-//                null,
-//                null,
-//                null
-//        );
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        if (data != null && data.moveToFirst()) {
-//
-//            mFavoritesHelper = new FavoritesHelper(getContext());
-//            movie = new Movie(data);
-//
-//            final String title = movie.getOriginalTitle();
-//            mTitleView.setText(title);
-//
-//            String releaseDate = movie.getReleaseDate();
-//            mReleaseDateView.setText(releaseDate);
-//
-//            String voteAverage = movie.getVoteAverage();
-//            mUserRatingView.setText(voteAverage);
-//
-//            String overview = movie.getOverview();
-//            mOverviewView.setText(overview);
-//
-//            String moviePoster = movie.getMoviePosterURL();
-//            Picasso.with(getContext())
-//                    .load(moviePoster)
-//                    .into(mPosterView);
-//
-//            fab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    currentMovieId = movie.getMovieId();
-//                    if (!mFavoritesHelper.isFavorite(currentMovieId)) {
-//                        mFavoritesHelper.addToFavorites(movie);
-//                        Snackbar.make(getView(), "Added to Favorites", Snackbar.LENGTH_SHORT).show();
-//                    } else {
-//                        mFavoritesHelper.deleteFromFavorites(currentMovieId);
-//                        Snackbar.make(getView(), "Deleted from Favorites", Snackbar.LENGTH_SHORT).show();
-//                    }
-//                    updateFab();
-//                }
-//            });
-//        }
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//
-//    }
 
     @Override
     public void onClick(View view) {
     }
 
+    @Override
+    public void onResume() {
+        updateFab();
+        super.onResume();
+    }
+
     private void updateFab() {
+        currentMovieId = movie.getMovieId();
         if (mFavoritesHelper.isFavorite(currentMovieId)) {
             fab.setImageResource(R.drawable.ic_favorite);
         } else {
             fab.setImageResource(R.drawable.ic_favorite_border);
         }
     }
+
 }

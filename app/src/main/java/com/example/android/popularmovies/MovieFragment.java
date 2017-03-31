@@ -33,8 +33,7 @@ public class MovieFragment extends Fragment
     private String mSortOrder;
     public static final int MOVIE_LOADER = 0;
     public static final int FAVORITES_LOADER = 1;
-
-    MovieAdapter mMovieAdapter;
+    private MovieAdapter mMovieAdapter;
 
     public interface Callback {
         public void onItemSelected(Uri idUri, MovieAdapter.MovieItemViewHolder vh);
@@ -65,7 +64,7 @@ public class MovieFragment extends Fragment
         // Get data for CursorAdapter and use it to populate RecyclerView
         mMovieAdapter = new MovieAdapter(getActivity(), emptyView);
 
-        // specify an adapter
+        // Specify an adapter
         mRecyclerView.setAdapter(mMovieAdapter);
 
         return rootView;

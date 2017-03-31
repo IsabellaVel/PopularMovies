@@ -25,9 +25,6 @@ public class Movie implements Parcelable {
     private final String BASE_URL = "https://image.tmdb.org/t/p/";
     private final String IMAGE_SIZE = "w185";
 
-    private Movie() {
-    }
-
     public Movie(Cursor cursor) {
         mId = cursor.getLong(MovieEntry.COL_MOVIE_ID);
         mOriginalTitle = cursor.getString(MovieEntry.COL_ORIGINAL_TITLE);
@@ -69,16 +66,15 @@ public class Movie implements Parcelable {
     }
 
     public Movie(Parcel parcel) {
-        Movie movie = new Movie();
-        movie.mId = parcel.readLong();
-        movie.mOriginalTitle = parcel.readString();
-        movie.mMoviePoster = parcel.readString();
-        movie.mOverview = parcel.readString();
-        movie.mVoteAverage = parcel.readString();
-        movie.mReleaseDate = parcel.readString();
-        movie.mPopularity = parcel.readString();
-        movie.mBackdropPoster = parcel.readString();
-        movie.mSortCriteria = parcel.readString();
+        mId = parcel.readLong();
+        mOriginalTitle = parcel.readString();
+        mMoviePoster = parcel.readString();
+        mOverview = parcel.readString();
+        mVoteAverage = parcel.readString();
+        mReleaseDate = parcel.readString();
+        mPopularity = parcel.readString();
+        mBackdropPoster = parcel.readString();
+        mSortCriteria = parcel.readString();
     }
 
     @Override

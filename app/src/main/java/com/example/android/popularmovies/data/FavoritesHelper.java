@@ -13,27 +13,27 @@ import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
 
 public class FavoritesHelper {
 
-    private final Context context;
+    private final Context mContext;
+    private static final String LOG_TAG = FavoritesHelper.class.getSimpleName();
+
 
     public FavoritesHelper(Context context) {
-        this.context = context.getApplicationContext();
+        this.mContext = context.getApplicationContext();
     }
 
     public void addToFavorites(Movie movie) {
-        context.getContentResolver().insert(FavoritesEntry.CONTENT_URI, movie.toFaveContentValues());
-        Log.d("DetailFragment", "Movie added to favorites");
+        mContext.getContentResolver().insert(FavoritesEntry.CONTENT_URI, movie.toFaveContentValues());
     }
 
     public void deleteFromFavorites(long movieId) {
-        int deleted = context.getContentResolver().delete(
+        mContext.getContentResolver().delete(
                 FavoritesEntry.buildMovieUri(movieId),
                 null,
                 null);
-        Log.d("DetailFragment", "deleteFaveMovie: Deleted: " + deleted);
     }
 
     public boolean isFavorite(long movieId) {
-        Cursor faveMovie = context.getContentResolver().query(
+        Cursor faveMovie = mContext.getContentResolver().query(
                 FavoritesEntry.buildMovieUri(movieId),
                 null,
                 null,
@@ -41,11 +41,11 @@ public class FavoritesHelper {
                 null);
         assert faveMovie != null;
         if (faveMovie.moveToNext()) {
-            Log.d("DetailFragment", "Movie already in favorites");
+            Log.d(LOG_TAG, "Movie stored in favorites");
             faveMovie.close();
             return true;
         } else {
-            Log.d("DetailFragment", "Movie not in favorites");
+            Log.d(LOG_TAG, "Movie not stored in favorites");
             faveMovie.close();
             return false;
         }

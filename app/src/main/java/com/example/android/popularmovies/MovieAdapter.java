@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.android.popularmovies.data.MovieContract;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.squareup.picasso.Picasso;
 
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemViewHolder> {
 
+    public static final String MOVIE_DETAILS = "movie_details";
     private final String LOG_TAG = MovieAdapter.class.getSimpleName();
     private final Context mContext;
     private final View mEmptyView;
@@ -48,10 +50,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, DetailActivity.class)
-                        .setData(MovieEntry.buildMovieUri(movie.getMovieId()));
-                context.startActivity(intent);
+                Intent intent = new Intent(mContext, DetailActivity.class);
+//                intent.setData(MovieEntry.buildMovieUri(movie.getMovieId()));
+                intent.putExtra(MOVIE_DETAILS, movie);
+                mContext.startActivity(intent);
             }
         });
     }

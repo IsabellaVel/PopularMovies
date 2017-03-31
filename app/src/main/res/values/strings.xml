@@ -34,5 +34,9 @@
     <!-- Empty Movie Database -->
     <string name="empty_movie_list">No Movie Information Available</string>
 
+    <!-- Snackbar messages -->
+    <string name="snackbar_added_to_favorites">Added to Favorites</string>
+    <string name="snackbar_removed_from_favorites">Removed from Favorites</string>
+
 
 </resources>

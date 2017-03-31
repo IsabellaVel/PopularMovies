@@ -28,7 +28,6 @@ import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 public class MovieFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private GridView gridView;
     private RecyclerView mRecyclerView;
     private String mSortOrder;
     public static final int MOVIE_LOADER = 0;

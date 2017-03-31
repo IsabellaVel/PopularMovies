@@ -31,7 +31,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
     private String sortOrder;
     private final Context mContext;
-
     public static final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
     public FetchMovieTask(Context context) {

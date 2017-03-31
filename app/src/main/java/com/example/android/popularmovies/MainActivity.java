@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements MovieFragment.Callback {
 
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
     private final String MOVIEFRAGMENT_TAG = "MFTAG";
-
     private String mSortOrder;
     MovieFragment movieGridFragment;
 

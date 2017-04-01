@@ -51,6 +51,17 @@
             <TextView
                 android:id="@+id/overview"
                 style="@style/label_details" />
+
+            <TextView
+                style="@style/label"
+                android:text="@string/label_reviews" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/movie_review_content" />
+
         </LinearLayout>
     </ScrollView>
 

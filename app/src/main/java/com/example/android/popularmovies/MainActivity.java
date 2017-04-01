@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.android.popularmovies.adapters.MovieAdapter;
+
 public class MainActivity extends AppCompatActivity implements MovieFragment.Callback {
 
     private final String MOVIEFRAGMENT_TAG = "MFTAG";

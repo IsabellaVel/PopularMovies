@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +18,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.adapters.MovieAdapter;
+import com.example.android.popularmovies.adapters.ReviewsAdapter;
 import com.example.android.popularmovies.data.FavoritesHelper;
+import com.example.android.popularmovies.pojo.Movie;
+import com.example.android.popularmovies.pojo.Reviews;
 import com.squareup.picasso.Picasso;
 
-public class DetailFragment extends Fragment implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DetailFragment extends Fragment implements View.OnClickListener{
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     TextView mTitleView, mReleaseDateView, mUserRatingView, mOverviewView, mSnackbarView;
@@ -28,6 +37,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private FavoritesHelper mFavoritesHelper;
     private Movie movie;
     private long currentMovieId;
+    private RecyclerView mRecyclerView;
+    private ReviewsAdapter mReviewsAdapter;
+    private List<Reviews> reviews;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -85,6 +97,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        reviews = new ArrayList<Reviews>();
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_reviews);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mReviewsAdapter = new ReviewsAdapter(getActivity(), reviews);
+        mRecyclerView.setAdapter(mReviewsAdapter);
+
         return rootView;
     }
 
@@ -112,4 +130,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onStart() {
+        currentMovieId = movie.getMovieId();
+        FetchReviewsTask fetchReviewsTask = new FetchReviewsTask(getActivity());
+        fetchReviewsTask.execute(String.valueOf(currentMovieId));
+        super.onStart();
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.android.popularmovies.data.MovieContract;
-import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.DetailActivity;
+import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.pojo.Movie;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -33,8 +34,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
     @Override
     public MovieItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_posters, parent, false);
-        MovieItemViewHolder viewHolder = new MovieItemViewHolder(view);
-        return viewHolder;
+        return new MovieItemViewHolder(view);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
         return mCursor.getCount();
     }
 
-    void swapCursor(Cursor cursor) {
+    public void swapCursor(Cursor cursor) {
         mCursor = cursor;
         notifyDataSetChanged();
         mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);

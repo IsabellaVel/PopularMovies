@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.example.android.popularmovies.Movie;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
 

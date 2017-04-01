@@ -17,8 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 
+import com.example.android.popularmovies.adapters.MovieAdapter;
 import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
@@ -51,7 +51,7 @@ public class MovieFragment extends Fragment
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        // Get a reference to the GridView and attach this adapter to it
+        // Get a reference to the RecyclerView and attach this adapter to it
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_movies);
 
         // Set the layout manager

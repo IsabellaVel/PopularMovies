@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
+import com.example.android.popularmovies.pojo.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +55,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
             JSONObject baseJsonResponse = new JSONObject(movieJSON);
             JSONArray movieArray = baseJsonResponse.getJSONArray(TMDB_RESULTS);
 
-            // Insert the new weather information into the database
+            // Insert the new movie information into the database
             Vector<ContentValues> cVVector = new Vector<ContentValues>(movieArray.length());
 
             // For each movie in the movieArray, create a Movie object

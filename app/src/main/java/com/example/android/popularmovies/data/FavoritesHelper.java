@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.android.popularmovies.Movie;
+import com.example.android.popularmovies.pojo.Movie;
 import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
 
 /**

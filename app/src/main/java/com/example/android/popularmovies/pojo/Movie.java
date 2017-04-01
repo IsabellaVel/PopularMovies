@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.pojo;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -88,7 +88,6 @@ public class Movie implements Parcelable {
         parcel.writeString(mPopularity);
         parcel.writeString(mBackdropPoster);
         parcel.writeString(mSortCriteria);
-
     }
 
     public long getMovieId() {return mId;}

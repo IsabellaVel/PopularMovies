@@ -3,8 +3,12 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.telecom.Call;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
+import com.example.android.popularmovies.adapters.ReviewsAdapter;
 import com.example.android.popularmovies.pojo.Reviews;
 
 import org.json.JSONArray;
@@ -29,10 +33,13 @@ import java.util.List;
 public class FetchReviewsTask extends AsyncTask<String, Void, List<Reviews>> {
 
     private final Context mContext;
+    private ReviewsAdapter mReviewsAdapter;
+
     public static final String LOG_TAG = FetchReviewsTask.class.getSimpleName();
 
-    public FetchReviewsTask(Context context) {
+    public FetchReviewsTask(Context context, ReviewsAdapter reviewsAdapter) {
         mContext = context;
+        mReviewsAdapter = reviewsAdapter;
     }
 
     private static List<Reviews> getMovieReviewsFromJson(String movieJSON) throws JSONException, ParseException {
@@ -80,7 +87,7 @@ public class FetchReviewsTask extends AsyncTask<String, Void, List<Reviews>> {
     }
 
     @Override
-    public List<Reviews> doInBackground(String... params) {
+    protected List<Reviews> doInBackground(String... params) {
         if (params.length == 0)
             return null;
 
@@ -162,4 +169,13 @@ public class FetchReviewsTask extends AsyncTask<String, Void, List<Reviews>> {
         }
         return reviews;
     }
+
+    @Override
+    protected void onPostExecute(List<Reviews> reviews) {
+        if (reviews != null && mReviewsAdapter != null) {
+            mReviewsAdapter.setMovieReviews(reviews);
+        }
+        super.onPostExecute(reviews);
+    }
+
 }

@@ -97,7 +97,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-        reviews = new ArrayList<Reviews>();
+        reviews = new ArrayList<>();
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_reviews);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mReviewsAdapter = new ReviewsAdapter(getActivity(), reviews);
@@ -133,7 +133,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onStart() {
         currentMovieId = movie.getMovieId();
-        FetchReviewsTask fetchReviewsTask = new FetchReviewsTask(getActivity());
+        FetchReviewsTask fetchReviewsTask = new FetchReviewsTask(getActivity(), mReviewsAdapter);
         fetchReviewsTask.execute(String.valueOf(currentMovieId));
         super.onStart();
     }

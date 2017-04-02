@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.pojo.Reviews;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +45,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
     @Override
     public int getItemCount() {
         return mReviews.size();
+    }
+
+    public void setMovieReviews(List<Reviews> reviews) {
+        mReviews = reviews;
+        notifyDataSetChanged();
     }
 
     public class ReviewsViewHolder extends RecyclerView.ViewHolder {

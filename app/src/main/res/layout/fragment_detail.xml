@@ -57,12 +57,20 @@
                 android:text="@string/label_reviews" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/trailer_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                tools:listitem="@layout/movie_trailer_content" />
+
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/movie_review_content" />
 
         </LinearLayout>
+
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton

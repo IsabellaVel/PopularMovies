@@ -1,15 +1,13 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.api;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.telecom.Call;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
-import com.example.android.popularmovies.adapters.ReviewsAdapter;
-import com.example.android.popularmovies.pojo.Reviews;
+import com.example.android.popularmovies.BuildConfig;
+import com.example.android.popularmovies.adapters.TrailersAdapter;
+import com.example.android.popularmovies.pojo.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,67 +25,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by noahkim on 3/3/17.
+ * Created by noahkim on 4/2/17.
  */
 
-public class FetchReviewsTask extends AsyncTask<String, Void, List<Reviews>> {
-
+public class FetchTrailersTask extends AsyncTask<String, Void, List<Trailer>> {
     private final Context mContext;
-    private ReviewsAdapter mReviewsAdapter;
+    private TrailersAdapter mTrailersAdapter;
 
-    public static final String LOG_TAG = FetchReviewsTask.class.getSimpleName();
+    public static final String LOG_TAG = FetchTrailersTask.class.getSimpleName();
 
-    public FetchReviewsTask(Context context, ReviewsAdapter reviewsAdapter) {
+    public FetchTrailersTask(Context context, TrailersAdapter trailersAdapter) {
         mContext = context;
-        mReviewsAdapter = reviewsAdapter;
+        mTrailersAdapter = trailersAdapter;
     }
 
-    private static List<Reviews> getMovieReviewsFromJson(String movieJSON) throws JSONException, ParseException {
+    private static List<Trailer> getMovieTrailersFromJson(String movieJSON) throws JSONException, ParseException {
 
         final String TMDB_RESULTS = "results";
         final String TMDB_ID = "id";
-        final String TMDB_AUTHOR = "author";
-        final String TMDB_CONTENT = "content";
-        final String TMDB_URL = "url";
+        final String TMDB_KEY = "key";
+        final String TMDB_NAME = "name";
+        final String TMDB_SITE = "site";
+        final String TMDB_SIZE = "size";
 
         // Create an empty ArrayList that we can start adding reviews to
-        List<Reviews> reviews = new ArrayList<>();
+        List<Trailer> trailers = new ArrayList<>();
 
         // Parse JSON response string
         try {
+
             JSONObject baseJsonResponse = new JSONObject(movieJSON);
             JSONArray movieArray = baseJsonResponse.getJSONArray(TMDB_RESULTS);
 
             // For each movie in the movieArray, create a Movie object
             for (int i = 0; i < movieArray.length(); i++) {
-                String reviewId;
-                String reviewAuthor;
-                String reviewContent;
-                String reviewUrl;
+                String trailerId;
+                String trailerKey;
+                String trailerName;
+                String trailerSite;
+                String trailerSize;
 
                 // Get a single review at position i within the list of movies
                 JSONObject currentMovie = movieArray.getJSONObject(i);
 
-                reviewId = currentMovie.getString(TMDB_ID);
-                reviewAuthor = currentMovie.getString(TMDB_AUTHOR);
-                reviewContent = currentMovie.getString(TMDB_CONTENT);
-                reviewUrl = currentMovie.getString(TMDB_URL);
+                trailerId = currentMovie.getString(TMDB_ID);
+                trailerKey = currentMovie.getString(TMDB_KEY);
+                trailerName = currentMovie.getString(TMDB_NAME);
+                trailerSite = currentMovie.getString(TMDB_SITE);
+                trailerSize = currentMovie.getString(TMDB_SIZE);
 
                 // Create a new Review object and add it to the list of reviews
-                Reviews review = new Reviews(reviewId, reviewAuthor, reviewContent, reviewUrl);
-                reviews.add(review);
+                Trailer trailer = new Trailer(trailerId, trailerKey, trailerName, trailerSite, trailerSize);
+                trailers.add(trailer);
             }
-            Log.d(LOG_TAG, "FetchReviewsTask Complete");
+            Log.d(LOG_TAG, "FetchTrailersTask Complete");
 
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Problem parsing the reviews JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the JSON results", e);
             e.printStackTrace();
         }
-        return reviews;
+        return trailers;
     }
 
     @Override
-    protected List<Reviews> doInBackground(String... params) {
+    protected List<Trailer> doInBackground(String... params) {
         if (params.length == 0)
             return null;
 
@@ -98,7 +99,7 @@ public class FetchReviewsTask extends AsyncTask<String, Void, List<Reviews>> {
 
         // Will contain the raw JSON response as a string.
         String movieJsonStr = null;
-        List<Reviews> reviews = null;
+        List<Trailer> trailers = null;
 
         try {
             final String APPID_PARAM = "api_key";
@@ -109,7 +110,7 @@ public class FetchReviewsTask extends AsyncTask<String, Void, List<Reviews>> {
                     .appendPath("3")
                     .appendPath("movie")
                     .appendPath(movieId)
-                    .appendPath("reviews")
+                    .appendPath("trailers")
                     .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_MOVIE_API_KEY)
                     .build();
 
@@ -161,21 +162,20 @@ public class FetchReviewsTask extends AsyncTask<String, Void, List<Reviews>> {
             }
         }
         try {
-            reviews = getMovieReviewsFromJson(movieJsonStr);
+            trailers = getMovieTrailersFromJson(movieJsonStr);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return reviews;
+        return trailers;
     }
 
     @Override
-    protected void onPostExecute(List<Reviews> reviews) {
-        if (reviews != null && mReviewsAdapter != null) {
-            mReviewsAdapter.setMovieReviews(reviews);
+    protected void onPostExecute(List<Trailer> trailers) {
+        if (trailers != null && mTrailersAdapter != null) {
+            mTrailersAdapter.setMovieTrailers(trailers);
         }
-        super.onPostExecute(reviews);
+        super.onPostExecute(trailers);
     }
-
 }

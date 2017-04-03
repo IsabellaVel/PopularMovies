@@ -20,9 +20,12 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.adapters.MovieAdapter;
 import com.example.android.popularmovies.adapters.ReviewsAdapter;
+import com.example.android.popularmovies.adapters.TrailersAdapter;
+import com.example.android.popularmovies.api.FetchReviewsTask;
+import com.example.android.popularmovies.api.FetchTrailersTask;
 import com.example.android.popularmovies.data.FavoritesHelper;
 import com.example.android.popularmovies.pojo.Movie;
-import com.example.android.popularmovies.pojo.Reviews;
+import com.example.android.popularmovies.pojo.Review;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,7 +42,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     private long currentMovieId;
     private RecyclerView mRecyclerView;
     private ReviewsAdapter mReviewsAdapter;
-    private List<Reviews> reviews;
+    private TrailersAdapter mTrailersAdapter;
+    private List<Review> reviews;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -107,6 +111,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
@@ -135,6 +140,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         currentMovieId = movie.getMovieId();
         FetchReviewsTask fetchReviewsTask = new FetchReviewsTask(getActivity(), mReviewsAdapter);
         fetchReviewsTask.execute(String.valueOf(currentMovieId));
+        FetchTrailersTask fetchTrailersTask = new FetchTrailersTask(getActivity(), mTrailersAdapter);
+        fetchTrailersTask.execute(String.valueOf(currentMovieId));
         super.onStart();
     }
 }

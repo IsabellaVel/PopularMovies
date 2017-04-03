@@ -1,6 +1,8 @@
 package com.example.android.popularmovies.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.pojo.Reviews;
+import com.example.android.popularmovies.pojo.Review;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,9 +21,9 @@ import java.util.List;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
 
     private Context mContext;
-    private List<Reviews> mReviews;
+    private List<Review> mReviews;
 
-    public ReviewsAdapter(Context context, List<Reviews> reviews){
+    public ReviewsAdapter(Context context, List<Review> reviews){
         mContext = context;
         mReviews = reviews;
     }
@@ -36,10 +37,19 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
     @Override
     public void onBindViewHolder(ReviewsAdapter.ReviewsViewHolder holder, int position) {
-        final Reviews review = mReviews.get(position);
+        final Review review = mReviews.get(position);
 
         holder.mAuthorTextView.setText(review.getAuthor());
         holder.mContentTextView.setText(review.getContent());
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(review.getUrl()));
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -47,7 +57,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
         return mReviews.size();
     }
 
-    public void setMovieReviews(List<Reviews> reviews) {
+    public void setMovieReviews(List<Review> reviews) {
         mReviews = reviews;
         notifyDataSetChanged();
     }

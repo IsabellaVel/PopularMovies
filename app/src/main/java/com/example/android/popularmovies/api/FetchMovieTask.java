@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.api;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.example.android.popularmovies.pojo.Movie;
 
@@ -102,7 +103,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
                 cVVector.toArray(cvArray);
                 inserted = mContext.getContentResolver().bulkInsert(MovieEntry.CONTENT_URI, cvArray);
             }
-
             Log.d(LOG_TAG, "FetchMovieTask Complete. " + inserted + " Inserted");
 
         } catch (JSONException e) {

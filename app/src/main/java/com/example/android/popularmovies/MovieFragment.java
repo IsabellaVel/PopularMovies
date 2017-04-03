@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.adapters.MovieAdapter;
+import com.example.android.popularmovies.api.FetchMovieTask;
 import com.example.android.popularmovies.data.MovieContract.FavoritesEntry;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 

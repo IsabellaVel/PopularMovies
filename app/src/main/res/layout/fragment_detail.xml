@@ -54,14 +54,18 @@
 
             <TextView
                 style="@style/label"
-                android:text="@string/label_reviews" />
+                android:text="@string/label_trailers" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/trailer_list"
+                android:id="@+id/recyclerview_trailers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 tools:listitem="@layout/movie_trailer_content" />
+
+            <TextView
+                style="@style/label"
+                android:text="@string/label_reviews" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_reviews"

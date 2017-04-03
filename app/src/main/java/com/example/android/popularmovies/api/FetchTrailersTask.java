@@ -41,12 +41,11 @@ public class FetchTrailersTask extends AsyncTask<String, Void, List<Trailer>> {
 
     private static List<Trailer> getMovieTrailersFromJson(String movieJSON) throws JSONException, ParseException {
 
-        final String TMDB_RESULTS = "results";
-        final String TMDB_ID = "id";
-        final String TMDB_KEY = "key";
+        final String TMDB_YOUTUBE = "youtube";
         final String TMDB_NAME = "name";
-        final String TMDB_SITE = "site";
         final String TMDB_SIZE = "size";
+        final String TMDB_SOURCE = "source";
+        final String TMDB_TYPE = "type";
 
         // Create an empty ArrayList that we can start adding reviews to
         List<Trailer> trailers = new ArrayList<>();
@@ -55,27 +54,25 @@ public class FetchTrailersTask extends AsyncTask<String, Void, List<Trailer>> {
         try {
 
             JSONObject baseJsonResponse = new JSONObject(movieJSON);
-            JSONArray movieArray = baseJsonResponse.getJSONArray(TMDB_RESULTS);
+            JSONArray movieArray = baseJsonResponse.getJSONArray(TMDB_YOUTUBE);
 
             // For each movie in the movieArray, create a Movie object
             for (int i = 0; i < movieArray.length(); i++) {
-                String trailerId;
-                String trailerKey;
                 String trailerName;
-                String trailerSite;
                 String trailerSize;
+                String trailerSource;
+                String trailerType;
 
                 // Get a single review at position i within the list of movies
                 JSONObject currentMovie = movieArray.getJSONObject(i);
 
-                trailerId = currentMovie.getString(TMDB_ID);
-                trailerKey = currentMovie.getString(TMDB_KEY);
                 trailerName = currentMovie.getString(TMDB_NAME);
-                trailerSite = currentMovie.getString(TMDB_SITE);
                 trailerSize = currentMovie.getString(TMDB_SIZE);
+                trailerSource = currentMovie.getString(TMDB_SOURCE);
+                trailerType = currentMovie.getString(TMDB_TYPE);
 
                 // Create a new Review object and add it to the list of reviews
-                Trailer trailer = new Trailer(trailerId, trailerKey, trailerName, trailerSite, trailerSize);
+                Trailer trailer = new Trailer(trailerName, trailerSize, trailerSource, trailerType);
                 trailers.add(trailer);
             }
             Log.d(LOG_TAG, "FetchTrailersTask Complete");

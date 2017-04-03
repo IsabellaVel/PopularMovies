@@ -26,6 +26,7 @@ import com.example.android.popularmovies.api.FetchTrailersTask;
 import com.example.android.popularmovies.data.FavoritesHelper;
 import com.example.android.popularmovies.pojo.Movie;
 import com.example.android.popularmovies.pojo.Review;
+import com.example.android.popularmovies.pojo.Trailer;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     private ReviewsAdapter mReviewsAdapter;
     private TrailersAdapter mTrailersAdapter;
     private List<Review> reviews;
+    private List<Trailer> trailers;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -66,6 +68,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         movie = getActivity().getIntent().getExtras().getParcelable(MovieAdapter.MOVIE_DETAILS);
         String title, releaseDate, voteAverage, overview, moviePoster;
 
+        // attach data to views
         title = movie.getOriginalTitle();
         mTitleView.setText(title);
 
@@ -101,11 +104,19 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
             }
         });
 
+        // display reviews
         reviews = new ArrayList<>();
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_reviews);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mReviewsAdapter = new ReviewsAdapter(getActivity(), reviews);
         mRecyclerView.setAdapter(mReviewsAdapter);
+
+        // display trailers
+        trailers = new ArrayList<>();
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_trailers);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mTrailersAdapter = new TrailersAdapter(getActivity(), trailers);
+        mRecyclerView.setAdapter(mTrailersAdapter);
 
         return rootView;
     }
@@ -138,8 +149,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onStart() {
         currentMovieId = movie.getMovieId();
+
         FetchReviewsTask fetchReviewsTask = new FetchReviewsTask(getActivity(), mReviewsAdapter);
         fetchReviewsTask.execute(String.valueOf(currentMovieId));
+
         FetchTrailersTask fetchTrailersTask = new FetchTrailersTask(getActivity(), mTrailersAdapter);
         fetchTrailersTask.execute(String.valueOf(currentMovieId));
         super.onStart();

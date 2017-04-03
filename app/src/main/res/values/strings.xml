@@ -41,5 +41,6 @@
     <string name="label_user_rating">User Rating</string>
     <string name="label_overview">Overview</string>
     <string name="label_reviews">Reviews</string>
+    <string name="label_trailers">Trailers</string>
 
 </resources>

@@ -8,26 +8,23 @@ import android.os.Parcelable;
  */
 
 public class Trailer implements Parcelable {
-    private String mId;
-    private String mKey;
     private String mName;
-    private String mSite;
     private String mSize;
+    private String mSource;
+    private String mType;
 
-    public Trailer(String id, String key, String name, String site, String size) {
-        mId = id;
-        mKey = key;
+    public Trailer(String name, String size, String source, String type) {
         mName = name;
-        mSite = site;
         mSize = size;
+        mSource = source;
+        mType = type;
     }
 
     protected Trailer(Parcel in) {
-        mId = in.readString();
-        mKey = in.readString();
         mName = in.readString();
-        mSite = in.readString();
         mSize = in.readString();
+        mSource = in.readString();
+        mType = in.readString();
     }
 
     public static final Creator<Trailer> CREATOR = new Creator<Trailer>() {
@@ -42,12 +39,9 @@ public class Trailer implements Parcelable {
         }
     };
 
-    public String getId() {return mId;}
-    public String getKey() {return mKey;}
     public String getName() {return mName;}
-    public String getSite() {return mSite;}
     public String getSize() {return mSize;}
-    public String getThumbnail() {return "http://img.youtube.com/vi/" + mKey + "/0.jpg";}
+    public String getThumbnail() {return "http://img.youtube.com/vi/" + mSource + "/0.jpg";}
 
     @Override
     public int describeContents() {
@@ -56,10 +50,9 @@ public class Trailer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mId);
-        parcel.writeString(mKey);
         parcel.writeString(mName);
-        parcel.writeString(mSite);
         parcel.writeString(mSize);
+        parcel.writeString(mSize);
+        parcel.writeString(mType);
     }
 }

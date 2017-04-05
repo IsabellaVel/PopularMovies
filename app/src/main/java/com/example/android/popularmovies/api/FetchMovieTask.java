@@ -137,6 +137,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
                     .build();
 
             URL url = new URL(uri.toString());
+            Log.d(LOG_TAG, url.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

@@ -6,6 +6,7 @@ package com.example.android.popularmovies;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -36,7 +37,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     TextView mTitleView, mReleaseDateView, mUserRatingView, mOverviewView, mSnackbarView;
-    ImageView mPosterView;
+    ImageView mPosterView, mBackdropView;
+    CollapsingToolbarLayout mAppBarLayout;
     FloatingActionButton fab;
     private FavoritesHelper mFavoritesHelper;
     private Movie movie;
@@ -58,28 +60,39 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         // Find views in fragment detail
+        mAppBarLayout = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         mTitleView = (TextView) rootView.findViewById(R.id.movie_title);
         mPosterView = (ImageView) rootView.findViewById(R.id.movie_poster);
+        mBackdropView = (ImageView) getActivity().findViewById(R.id.movie_backdrop);
         mReleaseDateView = (TextView) rootView.findViewById(R.id.release_date);
         mUserRatingView = (TextView) rootView.findViewById(R.id.user_rating);
         mOverviewView = (TextView) rootView.findViewById(R.id.overview);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         movie = getActivity().getIntent().getExtras().getParcelable(MovieAdapter.MOVIE_DETAILS);
-        String title, releaseDate, voteAverage, overview, moviePoster;
+        String title, releaseDate, voteAverage, overview, moviePoster, backdropPoster;
 
         // attach data to views
+        if (mAppBarLayout != null && getActivity() instanceof DetailActivity) {
+            mAppBarLayout.setTitle(movie.getOriginalTitle());
+        }
+
         title = movie.getOriginalTitle();
         mTitleView.setText(title);
 
         releaseDate = movie.getReleaseDate();
-        mReleaseDateView.setText(releaseDate);
+        mReleaseDateView.setText("Released: " + releaseDate);
 
         voteAverage = movie.getVoteAverage();
         mUserRatingView.setText(voteAverage);
 
         overview = movie.getOverview();
         mOverviewView.setText(overview);
+
+        backdropPoster = movie.getBackdropPoster();
+        Picasso.with(getContext())
+                .load(backdropPoster)
+                .into(mBackdropView);
 
         moviePoster = movie.getMoviePosterURL();
         Picasso.with(getContext())
@@ -107,7 +120,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         // display reviews
         reviews = new ArrayList<>();
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_reviews);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mReviewsAdapter = new ReviewsAdapter(getActivity(), reviews);
         mRecyclerView.setAdapter(mReviewsAdapter);
 

@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp"
     android:foreground="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/review_author"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -19,6 +21,9 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="5"
+        android:textSize="14sp"
         android:textAppearance="?android:textAppearanceMedium" />
+
+
 
 </LinearLayout>

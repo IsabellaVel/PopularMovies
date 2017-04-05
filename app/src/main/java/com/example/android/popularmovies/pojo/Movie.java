@@ -24,6 +24,8 @@ public class Movie implements Parcelable {
     private String mSortCriteria;
     private final String BASE_URL = "https://image.tmdb.org/t/p/";
     private final String IMAGE_SIZE = "w185";
+    private final String BACKDROP_ORIGINAL = "original";
+
 
     public Movie(Cursor cursor) {
         mId = cursor.getLong(MovieEntry.COL_MOVIE_ID);
@@ -96,7 +98,7 @@ public class Movie implements Parcelable {
     public String getOverview() { return mOverview; }
     public String getVoteAverage() { return mVoteAverage; }
     public String getReleaseDate() { return mReleaseDate; }
-    public String getBackdropPoster() { return mBackdropPoster; }
+    public String getBackdropPoster() { return BASE_URL + BACKDROP_ORIGINAL + mBackdropPoster; }
 
     @Override
     public int describeContents() {

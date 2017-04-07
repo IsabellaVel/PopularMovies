@@ -33,17 +33,32 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailFragment extends Fragment implements View.OnClickListener{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-    TextView mTitleView, mReleaseDateView, mUserRatingView, mOverviewView, mSnackbarView;
+
+    @BindView(R.id.movie_title)
+    TextView mTitleView;
+    @BindView(R.id.release_date)
+    TextView mReleaseDateView;
+    @BindView(R.id.user_rating)
+    TextView mUserRatingView;
+    @BindView(R.id.overview)
+    TextView mOverviewView;
+    @BindView(R.id.recyclerview_reviews)
+    RecyclerView mReviewsView;
+    @BindView(R.id.recyclerview_trailers)
+    RecyclerView mTrailersView;
+
     ImageView mPosterView, mBackdropView;
     CollapsingToolbarLayout mAppBarLayout;
     FloatingActionButton fab;
     private FavoritesHelper mFavoritesHelper;
     private Movie movie;
     private long currentMovieId;
-    private RecyclerView mRecyclerView;
     private ReviewsAdapter mReviewsAdapter;
     private TrailersAdapter mTrailersAdapter;
     private List<Review> reviews;
@@ -58,18 +73,16 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        ButterKnife.bind(this, rootView);
 
         // Find views in fragment detail
         mAppBarLayout = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
-        mTitleView = (TextView) rootView.findViewById(R.id.movie_title);
         mPosterView = (ImageView) rootView.findViewById(R.id.movie_poster);
         mBackdropView = (ImageView) getActivity().findViewById(R.id.movie_backdrop);
-        mReleaseDateView = (TextView) rootView.findViewById(R.id.release_date);
-        mUserRatingView = (TextView) rootView.findViewById(R.id.user_rating);
-        mOverviewView = (TextView) rootView.findViewById(R.id.overview);
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         movie = getActivity().getIntent().getExtras().getParcelable(MovieAdapter.MOVIE_DETAILS);
+
         String title, releaseDate, voteAverage, overview, moviePoster, backdropPoster;
 
         // attach data to views
@@ -118,24 +131,15 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         });
 
         // display reviews
-        reviews = new ArrayList<>();
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_reviews);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mReviewsAdapter = new ReviewsAdapter(getActivity(), reviews);
-        mRecyclerView.setAdapter(mReviewsAdapter);
+        displayReviews();
 
         // display trailers
-        trailers = new ArrayList<>();
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_trailers);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mTrailersAdapter = new TrailersAdapter(getActivity(), trailers);
-        mRecyclerView.setAdapter(mTrailersAdapter);
+        displayTrailers();
 
         return rootView;
     }
 
     @Override
-
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
@@ -169,5 +173,19 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         FetchTrailersTask fetchTrailersTask = new FetchTrailersTask(getActivity(), mTrailersAdapter);
         fetchTrailersTask.execute(String.valueOf(currentMovieId));
         super.onStart();
+    }
+
+    private void displayReviews() {
+        reviews = new ArrayList<>();
+        mReviewsView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mReviewsAdapter = new ReviewsAdapter(getActivity(), reviews);
+        mReviewsView.setAdapter(mReviewsAdapter);
+    }
+
+    private void displayTrailers() {
+        trailers = new ArrayList<>();
+        mTrailersView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mTrailersAdapter = new TrailersAdapter(getActivity(), trailers);
+        mTrailersView.setAdapter(mTrailersAdapter);
     }
 }

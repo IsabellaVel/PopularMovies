@@ -42,8 +42,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
         mCursor.moveToPosition(position);
         final Movie movie = new Movie(mCursor);
         String moviePosterPath = movie.getMoviePosterURL();
-        Picasso
-                .with(mContext)
+        Picasso.with(mContext)
                 .load(moviePosterPath)
                 .into(holder.mImageView);
 

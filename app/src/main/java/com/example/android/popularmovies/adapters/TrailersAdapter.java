@@ -38,9 +38,10 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     public void onBindViewHolder(TrailersViewHolder holder, int position) {
         final Trailer trailer = mTrailers.get(position);
         String trailerThumbnailPath = trailer.getThumbnail();
-        Picasso
-                .with(mContext)
+        Picasso.with(mContext)
                 .load(trailerThumbnailPath)
+                .placeholder(R.drawable.ic_local_movies_black_36dp)
+                .error(R.drawable.ic_error_black_24dp)
                 .into(holder.mThumbnailView);
     }
 

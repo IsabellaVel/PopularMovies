@@ -10,7 +10,7 @@ This is Project 1 & 2 of Udacity's Android Developer Nanodegree.
 Clone the GitHub repository:
 
 ```git
-$ git clone https://github.com/noahhkim/popularmovies.git
+git clone https://github.com/noahhkim/popularmovies.git
 ```
 **Features:**
 

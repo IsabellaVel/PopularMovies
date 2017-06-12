@@ -10,7 +10,9 @@ This is Project 1 & 2 of Udacity's Android Developer Nanodegree.
 Clone the GitHub repository:
 
 ```$ git clone https://github.com/noahhkim/popularmovies.git
+
 ```
+
 **Features:**
 
 - Discover the most popular, the highest rated and the most rated movies

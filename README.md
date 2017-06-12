@@ -6,6 +6,7 @@ An Android app that helps user to discover movies and save their favorites.
 This is Project 1 & 2 of Udacity's Android Developer Nanodegree.
 
 **Installation:**
+
 Clone the GitHub repository:
 $ git clone https://github.com/noahhkim/popularmovies.git
 
